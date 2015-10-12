@@ -1,5 +1,6 @@
 package br.com.puc.facebookproject;
 
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.util.Log;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import android.content.pm.Signature;
+import android.view.View;
 
 import com.facebook.FacebookSdk;
 
@@ -60,6 +62,14 @@ public class MainActivity extends AppCompatActivity {
         }
         catch (PackageManager.NameNotFoundException e){}
         catch (NoSuchAlgorithmException e){}
-
     }
+
+    public void onButtonClick(View v) {
+        if (v.getId() == R.id.bNovaTela) {
+            Intent i = new Intent(MainActivity.this, menu.class);
+            startActivity(i);
+        }
+    }
+
+
 }
