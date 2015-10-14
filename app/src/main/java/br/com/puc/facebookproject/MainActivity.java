@@ -1,5 +1,7 @@
 package br.com.puc.facebookproject;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -14,10 +16,57 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import android.content.pm.Signature;
 import android.view.View;
+import android.widget.Button;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
 public class MainActivity extends AppCompatActivity {
+    private Button bNovaTela;
+
+    private CallbackManager mCallBackManager;
+    private FacebookCallback<LoginResult> mCallback= new FacebookCallback<LoginResult>() {
+        private ProfileTracker mProfileTracker;
+
+        @Override
+        public void onSuccess(LoginResult loginResult) {
+            mProfileTracker = new ProfileTracker() {
+                @Override
+                protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
+                    Log.v("facebook - profile", profile2.getFirstName());
+                    mProfileTracker.stopTracking();
+                }
+            };
+            mProfileTracker.startTracking();
+
+            AccessToken accessToken = loginResult.getAccessToken();
+            Profile profile = Profile.getCurrentProfile();
+
+            if (profile != null) {
+               Log.d("Name: ", profile.getFirstName());
+                Log.d("Lastname: ", profile.getLastName());
+            }
+
+        }
+
+        @Override
+        public void onCancel() {
+
+        }
+
+        @Override
+        public void onError(FacebookException error) {
+
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +74,13 @@ public class MainActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         getUserInfo();
+
+        mCallBackManager = CallbackManager.Factory.create();
+        LoginButton loginButton =  (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions("user_friends");
+
+        loginButton.registerCallback(mCallBackManager,mCallback);
+
     }
 
     @Override
@@ -68,6 +124,14 @@ public class MainActivity extends AppCompatActivity {
         if (v.getId() == R.id.bNovaTela) {
             Intent i = new Intent(MainActivity.this, menu.class);
             startActivity(i);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mCallBackManager.onActivityResult(requestCode, resultCode, data)) {
+            return;
         }
     }
 
