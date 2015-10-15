@@ -1,7 +1,5 @@
 package br.com.puc.facebookproject;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -52,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
             if (profile != null) {
                Log.d("Name: ", profile.getFirstName());
                 Log.d("Lastname: ", profile.getLastName());
+                Intent i = new Intent(MainActivity.this, menu.class);
+                startActivity(i);
             }
 
         }
@@ -79,7 +79,12 @@ public class MainActivity extends AppCompatActivity {
         LoginButton loginButton =  (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions("user_friends");
 
-        loginButton.registerCallback(mCallBackManager,mCallback);
+        loginButton.registerCallback(mCallBackManager, mCallback);
+
+
+        //FORÇA A IDA PRA TELA CERTA
+        Intent i = new Intent(MainActivity.this, sharelocation.class);
+        startActivity(i);
 
     }
 
