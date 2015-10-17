@@ -4,6 +4,14 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/logout_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:onClick="faceLogout"/>
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="fill_parent"
@@ -13,13 +21,14 @@
         android:text="Menu - Vou de Bike"
         android:textSize="30dp" />
 
-    <EditText
-        android:id="@+id/editText1"
+    <Button
+        android:id="@+id/bShareOnFacebook"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:numeric="integer"
-        android:singleLine="true" />
+        android:text="Share on Facebook"
+        android:onClick="shareOnFacebook"/>
 
     <Button
         android:id="@+id/bShareLocation"
@@ -27,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:text="Share Location"
+        android:text="Share Location of GPS"
         android:onClick="onButtonClick"/>
 
     <TextView

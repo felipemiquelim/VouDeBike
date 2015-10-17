@@ -8,25 +8,18 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.Profile;
-import com.facebook.login.LoginManager;
 import com.facebook.share.Sharer;
-import com.facebook.share.internal.ShareDialogFeature;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Felipe on 14/10/2015.
  */
-public class sharelocation extends Activity {
+public class shareonfacebook extends Activity {
     private Button bShare;
     private Profile profile;
     private CallbackManager callbackManager;
@@ -35,7 +28,7 @@ public class sharelocation extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sharelocation);
+        setContentView(R.layout.shareonfacebook);
         getCurrProfile();
 
         callbackManager = CallbackManager.Factory.create();
@@ -44,7 +37,7 @@ public class sharelocation extends Activity {
         shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
             @Override
             public void onSuccess(Sharer.Result result) {
-                Toast.makeText(sharelocation.this, "Success", Toast.LENGTH_LONG).show();
+                Toast.makeText(shareonfacebook.this, "Success", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -54,7 +47,7 @@ public class sharelocation extends Activity {
 
             @Override
             public void onError(FacebookException error) {
-                Toast.makeText(sharelocation.this, "Fail", Toast.LENGTH_LONG).show();
+                Toast.makeText(shareonfacebook.this, "Fail", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -79,11 +72,6 @@ public class sharelocation extends Activity {
 
     private void getCurrProfile() {
         profile = Profile.getCurrentProfile();
-
-        if (profile != null) {
-            Log.d("Name: ", profile.getFirstName());
-            Log.d("Lastname: ", profile.getLastName());
-        }
     }
 
 
@@ -97,7 +85,7 @@ public class sharelocation extends Activity {
 
             if (verifyPermissions(permissions, newPermissions)) {
                 bReauth = true;
-                lg.logInWithReadPermissions(sharelocation.this, newPermissions);
+                lg.logInWithReadPermissions(shareonfacebook.this, newPermissions);
                 return;
             }
 

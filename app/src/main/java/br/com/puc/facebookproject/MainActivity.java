@@ -28,7 +28,8 @@ import com.facebook.login.widget.LoginButton;
 
 public class MainActivity extends AppCompatActivity {
     private Button bNovaTela;
-
+    private Profile profile;
+    private AccessToken accessToken;
     private CallbackManager mCallBackManager;
     private FacebookCallback<LoginResult> mCallback= new FacebookCallback<LoginResult>() {
         private ProfileTracker mProfileTracker;
@@ -38,19 +39,21 @@ public class MainActivity extends AppCompatActivity {
             mProfileTracker = new ProfileTracker() {
                 @Override
                 protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
-                    Log.v("facebook - profile", profile2.getFirstName());
                     mProfileTracker.stopTracking();
                 }
             };
             mProfileTracker.startTracking();
+            accessToken = loginResult.getAccessToken();
 
-            AccessToken accessToken = loginResult.getAccessToken();
-            Profile profile = Profile.getCurrentProfile();
+            getProfile();
 
             if (profile != null) {
-               Log.d("Name: ", profile.getFirstName());
-                Log.d("Lastname: ", profile.getLastName());
+               /*Log.d("Name: ", profile.getFirstName());
+                Log.d("Lastname: ", profile.getLastName());*/
                 Intent i = new Intent(MainActivity.this, menu.class);
+                startActivity(i);
+            } else {
+                Intent i = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(i);
             }
 
@@ -67,13 +70,22 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private void getProfile() {
+        try {
+            profile = Profile.getCurrentProfile();
+        }
+        catch (Exception e){
+            Log.wtf("Erro", "FAIL");
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
-        getUserInfo();
+        //getUserInfo();
 
         mCallBackManager = CallbackManager.Factory.create();
         LoginButton loginButton =  (LoginButton) findViewById(R.id.login_button);
@@ -81,10 +93,12 @@ public class MainActivity extends AppCompatActivity {
 
         loginButton.registerCallback(mCallBackManager, mCallback);
 
-
-        //FORÇA A IDA PRA TELA CERTA
-        Intent i = new Intent(MainActivity.this, sharelocation.class);
-        startActivity(i);
+        //VERIFICA SE JÁ ESTA LOGADO, SE SIM VAI PARA O MENU
+        getProfile();
+        if (profile != null) {
+            Intent i = new Intent(MainActivity.this, menu.class);
+            startActivity(i);
+        }
 
     }
 
@@ -125,12 +139,6 @@ public class MainActivity extends AppCompatActivity {
         catch (NoSuchAlgorithmException e){}
     }
 
-    public void onButtonClick(View v) {
-        if (v.getId() == R.id.bNovaTela) {
-            Intent i = new Intent(MainActivity.this, menu.class);
-            startActivity(i);
-        }
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

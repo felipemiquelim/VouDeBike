@@ -3,22 +3,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-
-    <com.facebook.login.widget.LoginButton
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center" />
-
-    <Button
-        android:id="@+id/bNovaTela"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:text="ABRIR NOVA TELA"
-        android:onClick="onButtonClick" />
-
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
         android:layout_width="wrap_content"

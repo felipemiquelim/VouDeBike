@@ -24,7 +24,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".menu"></activity>
-        <activity android:name=".sharelocation"></activity>
+        <activity android:name=".shareonfacebook"></activity>
+        <activity android:name=".sharelocationgps"></activity>
 
 
     <activity android:name="com.facebook.FacebookActivity"
