@@ -28,7 +28,7 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="Share on Facebook"
-        android:onClick="shareOnFacebook"/>
+        android:onClick="onButtonClick"/>
 
     <Button
         android:id="@+id/bShareLocation"
@@ -39,11 +39,15 @@
         android:text="Share Location of GPS"
         android:onClick="onButtonClick"/>
 
-    <TextView
-        android:id="@+id/tv_result"
+    <Button
+        android:id="@+id/bShareActivity"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:text="" android:textSize="26dp"/>
+        android:text="Share Activity"
+        android:onClick="onButtonClick"/>
+
+
 
 </LinearLayout>

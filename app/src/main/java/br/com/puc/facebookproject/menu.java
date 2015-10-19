@@ -66,11 +66,20 @@ public class menu extends Activity {
         logoutButton.registerCallback(mCallBackManager, mCallback);
     }
 
-    public void shareOnFacebook(View v) {
+    public void onButtonClick(View v) {
         if (v.getId() == R.id.bShareOnFacebook) {
             Intent i = new Intent(menu.this, shareonfacebook.class);
             startActivity(i);
         }
+        if (v.getId() == R.id.bShareLocation) {
+            Intent i = new Intent(menu.this, sharelocationgps.class);
+            startActivity(i);
+        }
+        if (v.getId() == R.id.bShareActivity) {
+            Intent i = new Intent(menu.this, shareactivity.class);
+            startActivity(i);
+        }
+
     }
 
     @Override

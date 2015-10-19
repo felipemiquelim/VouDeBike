@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center"
+    android:text="location"
+    android:id="@+id/location_text"
+    android:visibility="invisible"
+    />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/get_address_button"
+        android:text="Get Address"
+        android:onClick="AddressButton_OnClick"
+        />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="address"
+        android:id="@+id/address_text"
+        />
 
     <Button
         android:id="@+id/bShare"
@@ -10,5 +36,4 @@
         android:gravity="center"
         android:text="Share Location of GPS"
         android:onClick="shareContent"/>
-
 </LinearLayout>
