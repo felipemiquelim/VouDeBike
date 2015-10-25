@@ -3,6 +3,7 @@ package br.com.puc.facebookproject;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -12,6 +13,8 @@ import android.util.Log;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
+
 import android.content.pm.Signature;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +28,10 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+
+import br.com.puc.sqlite.MySQLiteHelper;
+import br.com.puc.sqlite.br.com.puc.sqlite.crud.TB_CICLISTA;
+import br.com.puc.sqlite.ciclista;
 
 public class MainActivity extends AppCompatActivity {
     private Button bNovaTela;
@@ -93,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
 
         loginButton.registerCallback(mCallBackManager, mCallback);
 
+        //Operacao de DB Antiga
+        // CreateDataBaseStructure();
+
         //VERIFICA SE JÁ ESTA LOGADO, SE SIM VAI PARA O MENU
         getProfile();
         if (profile != null) {
@@ -100,6 +110,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         }
 
+    }
+
+    private void CreateDataBaseStructure() {
+
+        MySQLiteHelper dbhelper = new MySQLiteHelper(this);
+        TB_CICLISTA tb_ciclista = new TB_CICLISTA();
+
+        dbhelper.teste(tb_ciclista);
     }
 
     @Override
@@ -147,6 +165,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
     }
+
+
 
 
 }
