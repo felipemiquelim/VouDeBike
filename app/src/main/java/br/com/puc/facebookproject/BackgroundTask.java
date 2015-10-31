@@ -19,6 +19,8 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import br.com.puc.facebookproject.ciclista.cadastro_ciclista;
+
 /**
  * Created by Felipe on 25/10/2015.
  */
@@ -33,7 +35,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
         this.ctx = ctx;
     }
 
-    BackgroundTask(Context ctx) {
+    public BackgroundTask(Context ctx) {
         this.ctx = ctx;
     }
 

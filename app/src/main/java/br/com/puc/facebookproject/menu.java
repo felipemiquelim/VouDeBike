@@ -3,8 +3,16 @@ package br.com.puc.facebookproject;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -16,10 +24,17 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import br.com.puc.br.com.puc.fragment.FragmentOne;
+import br.com.puc.br.com.puc.fragment.FragmentTwo;
+
 /**
  * Created by Felipe on 12/10/2015.
  */
-public class menu extends Activity {
+public class menu extends AppCompatActivity {
+    ListView listView;
+    ArrayAdapter<String> listAdapter;
+    String fragmentArray[] = {"FRAGMENT 1", "FRAGMENT 2"};
+    DrawerLayout drawerLayout;
 
     private CallbackManager mCallBackManager;
     private FacebookCallback<LoginResult> mCallback= new FacebookCallback<LoginResult>() {
@@ -69,8 +84,39 @@ public class menu extends Activity {
 
         logoutButton.registerCallback(mCallBackManager, mCallback);
 
+        //Configura o menu Lateral
+        setDrawers();
+
+        //Verifica se o ciclista já está cadastrado no BD
         clienteExiste();
 
+    }
+
+    private void setDrawers() {
+        listView = (ListView) findViewById(R.id.listView);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,fragmentArray);
+        listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Fragment fragment;
+                switch (position) {
+                    case 0:
+                        fragment = new FragmentOne();
+                        break;
+                    case 1:
+                        fragment = new FragmentTwo();
+                        break;
+                    default:
+                        fragment = new FragmentOne();
+                        break;
+                }
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager .beginTransaction().replace(R.id.linearLayout, fragment).commit();
+                drawerLayout.closeDrawers();
+            }
+        });
     }
 
     private void clienteExiste() {

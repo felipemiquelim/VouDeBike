@@ -30,7 +30,7 @@
         <activity android:name=".shareonfacebook"></activity>
         <activity android:name=".sharelocationgps"></activity>
         <activity android:name=".shareactivity"></activity>
-        <activity android:name=".cadastro_ciclista"></activity>
+        <activity android:name=".ciclista.cadastro_ciclista"></activity>
 
 
 

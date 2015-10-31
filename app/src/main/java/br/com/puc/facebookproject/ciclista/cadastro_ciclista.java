@@ -1,4 +1,4 @@
-package br.com.puc.facebookproject;
+package br.com.puc.facebookproject.ciclista;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,6 +7,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.facebook.Profile;
+
+import br.com.puc.facebookproject.BackgroundTask;
+import br.com.puc.facebookproject.R;
 
 /**
  * Created by Felipe on 25/10/2015.
