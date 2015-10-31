@@ -67,6 +67,11 @@ public class sharelocationgps extends Activity {
 
         profile = Profile.getCurrentProfile();
 
+        //
+        Log.v("facebook - profile", profile.getFirstName());
+        Log.v("facebook - profile", profile.getName());
+        //
+
         callbackManager = CallbackManager.Factory.create();
         shareDialog = new ShareDialog(this);
         // this part is optional

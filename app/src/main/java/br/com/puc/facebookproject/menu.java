@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -19,6 +20,7 @@ import com.facebook.login.widget.LoginButton;
  * Created by Felipe on 12/10/2015.
  */
 public class menu extends Activity {
+
     private CallbackManager mCallBackManager;
     private FacebookCallback<LoginResult> mCallback= new FacebookCallback<LoginResult>() {
         private ProfileTracker mProfileTracker;
@@ -29,6 +31,7 @@ public class menu extends Activity {
                 @Override
                 protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
                     Log.v("facebook - profile", profile2.getFirstName());
+                    Log.v("facebook - profile", profile2.getName());
                     mProfileTracker.stopTracking();
                 }
             };
@@ -56,6 +59,7 @@ public class menu extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
 
@@ -64,6 +68,17 @@ public class menu extends Activity {
         //loginButton.setReadPermissions("user_friends");
 
         logoutButton.registerCallback(mCallBackManager, mCallback);
+
+        clienteExiste();
+
+    }
+
+    private void clienteExiste() {
+        String method="verificaCliente";
+        Profile profile = Profile.getCurrentProfile();
+
+        BackgroundTask backgroundTask = new BackgroundTask(getApplicationContext(),this);
+        backgroundTask.execute(method, profile.getName());
     }
 
     public void onButtonClick(View v) {
@@ -95,4 +110,5 @@ public class menu extends Activity {
         Intent i = new Intent(menu.this, MainActivity.class);
         startActivity(i);
     }
+
 }
