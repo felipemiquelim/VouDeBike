@@ -26,6 +26,7 @@ import com.facebook.login.widget.LoginButton;
 
 import br.com.puc.br.com.puc.fragment.FragmentOne;
 import br.com.puc.br.com.puc.fragment.FragmentTwo;
+import br.com.puc.facebookproject.ciclista.gerenciar_ciclista;
 
 /**
  * Created by Felipe on 12/10/2015.
@@ -33,7 +34,7 @@ import br.com.puc.br.com.puc.fragment.FragmentTwo;
 public class menu extends AppCompatActivity {
     ListView listView;
     ArrayAdapter<String> listAdapter;
-    String fragmentArray[] = {"FRAGMENT 1", "FRAGMENT 2"};
+    String fragmentArray[] = {"GERENCIAR CONTA", "FRAGMENT 2"};
     DrawerLayout drawerLayout;
 
     private CallbackManager mCallBackManager;
@@ -103,7 +104,9 @@ public class menu extends AppCompatActivity {
                 Fragment fragment;
                 switch (position) {
                     case 0:
-                        fragment = new FragmentOne();
+                        //fragment = new FragmentOne();
+                        Intent i = new Intent(menu.this, gerenciar_ciclista.class);
+                        startActivity(i);
                         break;
                     case 1:
                         fragment = new FragmentTwo();
@@ -112,8 +115,8 @@ public class menu extends AppCompatActivity {
                         fragment = new FragmentOne();
                         break;
                 }
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager .beginTransaction().replace(R.id.linearLayout, fragment).commit();
+                //FragmentManager fragmentManager = getSupportFragmentManager();
+                //fragmentManager .beginTransaction().replace(R.id.linearLayout, fragment).commit();
                 drawerLayout.closeDrawers();
             }
         });

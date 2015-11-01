@@ -55,6 +55,12 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
         if(result.equals("Registration Success...")) {
             Toast.makeText(ctx,result,Toast.LENGTH_LONG).show();
         }
+        else if (result.equals("Update Success...")) {
+            Toast.makeText(ctx,result,Toast.LENGTH_LONG).show();
+        }
+        else if (result.equals("Deactivate Success...")) {
+            Toast.makeText(ctx,result,Toast.LENGTH_LONG).show();
+        }
         else {
             //alertDialog.setMessage(result);
             //alertDialog.show();
@@ -71,8 +77,10 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
 
     @Override
     protected String doInBackground(String... params) {
-        String reg_url = "http://192.168.0.12/voudebike/register.php";
-        String sel_url = "http://192.168.0.12/voudebike/select.php";
+        String reg_url = "http://192.168.0.12/voudebike/ciclista/register.php";
+        String sel_url = "http://192.168.0.12/voudebike/ciclista/select.php";
+        String upd_url = "http://192.168.0.12/voudebike/ciclista/update.php";
+        String des_url = "http://192.168.0.12/voudebike/ciclista/desativar.php";
 
         String method = params[0];
         if(method.equals("register"))
@@ -135,6 +143,64 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(method.equals("update")) {
+            String nome = params[1];
+            String email = params[2];
+            String celular = params[3];
+            String status = params[4];
+            try {
+                URL url = new URL(upd_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                OutputStream OS = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
+                String data = URLEncoder.encode("nome", "UTF-8") + "=" + URLEncoder.encode(nome, "UTF-8") + "&" +
+                        URLEncoder.encode("email", "UTF-8") + "="  + URLEncoder.encode(email, "UTF-8") + "&" +
+                        URLEncoder.encode("celular", "UTF-8") + "=" + URLEncoder.encode(celular, "UTF-8") + "&" +
+                        URLEncoder.encode("status", "UTF-8") + "=" + URLEncoder.encode(status, "UTF-8") + "&";
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                OS.close();
+                InputStream IS = httpURLConnection.getInputStream();
+                IS.close();
+                return "Update Success...";
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(method.equals("desativar")) {
+            String nome = params[1];
+            String email = params[2];
+            String celular = params[3];
+            String status = params[4];
+            try {
+                URL url = new URL(des_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                OutputStream OS = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
+                String data = URLEncoder.encode("nome", "UTF-8") + "=" + URLEncoder.encode(nome, "UTF-8") + "&" +
+                        URLEncoder.encode("email", "UTF-8") + "="  + URLEncoder.encode(email, "UTF-8") + "&" +
+                        URLEncoder.encode("celular", "UTF-8") + "=" + URLEncoder.encode(celular, "UTF-8") + "&" +
+                        URLEncoder.encode("status", "UTF-8") + "=" + URLEncoder.encode(status, "UTF-8") + "&";
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                OS.close();
+                InputStream IS = httpURLConnection.getInputStream();
+                IS.close();
+                return "Deactivate Success...";
+            } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();

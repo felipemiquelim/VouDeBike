@@ -20,8 +20,6 @@
         android:gravity="center"
         android:onClick="faceLogout"/>
 
-
-
     <TextView
         android:id="@+id/textView1"
         android:layout_width="fill_parent"
@@ -57,9 +55,6 @@
         android:gravity="center"
         android:text="Share Activity"
         android:onClick="onButtonClick"/>
-
-
-
 </LinearLayout>
 
 
