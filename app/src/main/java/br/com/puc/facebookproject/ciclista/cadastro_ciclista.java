@@ -43,7 +43,7 @@ public class cadastro_ciclista extends Activity {
         celular = edtcelular.getText().toString();
         status = "1";
 
-        String method = "update";
+        String method = "register";
         BackgroundTask backgroundTask = new BackgroundTask(this);
         backgroundTask.execute(method,nome, email, celular, status);
         finish();

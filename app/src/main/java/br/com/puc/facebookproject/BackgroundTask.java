@@ -28,7 +28,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
     Context ctx;
     AlertDialog alertDialog;
     menu mParent;
-
+    String ip = "http://192.168.0.12/voudebike/";
 
     BackgroundTask(Context ctx, menu m) {
         this.mParent = m;
@@ -77,10 +77,10 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
 
     @Override
     protected String doInBackground(String... params) {
-        String reg_url = "http://192.168.0.12/voudebike/ciclista/register.php";
-        String sel_url = "http://192.168.0.12/voudebike/ciclista/select.php";
-        String upd_url = "http://192.168.0.12/voudebike/ciclista/update.php";
-        String des_url = "http://192.168.0.12/voudebike/ciclista/desativar.php";
+        String reg_url = ip + "ciclista/register.php";
+        String sel_url = ip + "ciclista/select.php";
+        String upd_url = ip + "ciclista/update.php";
+        String des_url = ip + "ciclista/desativar.php";
 
         String method = params[0];
         if(method.equals("register"))

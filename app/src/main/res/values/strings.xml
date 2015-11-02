@@ -4,4 +4,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="app_id">737312609708014</string>
+    <string name="title_activity_maps">Map</string>
+
 </resources>

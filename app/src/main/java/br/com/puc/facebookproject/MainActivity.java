@@ -29,9 +29,9 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
-import br.com.puc.sqlite.MySQLiteHelper;
-import br.com.puc.sqlite.br.com.puc.sqlite.crud.TB_CICLISTA;
-import br.com.puc.sqlite.ciclista;
+//import br.com.puc.sqlite.MySQLiteHelper;
+//import br.com.puc.sqlite.br.com.puc.sqlite.crud.TB_CICLISTA;
+//import br.com.puc.sqlite.ciclista;
 
 public class MainActivity extends AppCompatActivity {
     private Button bNovaTela;
@@ -112,13 +112,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void CreateDataBaseStructure() {
+    /*private void CreateDataBaseStructure() {
 
         MySQLiteHelper dbhelper = new MySQLiteHelper(this);
         TB_CICLISTA tb_ciclista = new TB_CICLISTA();
 
         dbhelper.teste(tb_ciclista);
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

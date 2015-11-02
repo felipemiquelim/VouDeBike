@@ -24,9 +24,8 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
-import br.com.puc.br.com.puc.fragment.FragmentOne;
-import br.com.puc.br.com.puc.fragment.FragmentTwo;
 import br.com.puc.facebookproject.ciclista.gerenciar_ciclista;
+import br.com.puc.facebookproject.maps.MapsActivity;
 
 /**
  * Created by Felipe on 12/10/2015.
@@ -34,7 +33,7 @@ import br.com.puc.facebookproject.ciclista.gerenciar_ciclista;
 public class menu extends AppCompatActivity {
     ListView listView;
     ArrayAdapter<String> listAdapter;
-    String fragmentArray[] = {"GERENCIAR CONTA", "FRAGMENT 2"};
+    String fragmentArray[] = {"GERENCIAR CONTA", "GOOGLE MAPS"};
     DrawerLayout drawerLayout;
 
     private CallbackManager mCallBackManager;
@@ -109,10 +108,11 @@ public class menu extends AppCompatActivity {
                         startActivity(i);
                         break;
                     case 1:
-                        fragment = new FragmentTwo();
+                        //fragment = new FragmentTwo();
+                        Intent i2 = new Intent(menu.this, MapsActivity.class);
+                        startActivity(i2);
                         break;
                     default:
-                        fragment = new FragmentOne();
                         break;
                 }
                 //FragmentManager fragmentManager = getSupportFragmentManager();
