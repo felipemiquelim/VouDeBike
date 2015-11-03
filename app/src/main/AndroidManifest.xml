@@ -37,7 +37,9 @@
         <activity android:name=".shareactivity" />
         <activity android:name=".ciclista.cadastro_ciclista" />
         <activity android:name=".ciclista.gerenciar_ciclista" />
-        <activity
+        <activity android:name=".maps.Direcion"></activity>
+
+    <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"

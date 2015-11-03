@@ -6,4 +6,14 @@
     <string name="app_id">737312609708014</string>
     <string name="title_activity_maps">Map</string>
 
+    <string-array name="estabelecimentos">
+        <item>Todos</item>
+        <item>Bicicletaria</item>
+        <item>Bicicletario</item>
+        <item>Paraciclo</item>
+        <item>Restaurante</item>
+        <item>Outros</item>
+    </string-array>
+    <string name="spinner">Escolha o tipo de estabelecimento</string>
+
 </resources>

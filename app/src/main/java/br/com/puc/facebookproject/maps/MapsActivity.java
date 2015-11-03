@@ -1,24 +1,49 @@
 package br.com.puc.facebookproject.maps;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Spinner;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.puc.facebookproject.R;
+import br.com.puc.facebookproject.dataBase;
 
 public class MapsActivity extends FragmentActivity {
-
+    String[] listaMarkers;
+    private Spinner spinner;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        getMarkers();
         setUpMapIfNeeded();
+    }
+
+    private void getMarkers() {
+        String method = "select";
+        dataBase backgroundTask = new dataBase(this, this);
+        backgroundTask.execute(method);
     }
 
     @Override
@@ -27,21 +52,16 @@ public class MapsActivity extends FragmentActivity {
         setUpMapIfNeeded();
     }
 
-    /**
-     * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
-     * installed) and the map has not already been instantiated.. This will ensure that we only ever
-     * call {@link #setUpMap()} once when {@link #mMap} is not null.
-     * <p/>
-     * If it isn't installed {@link SupportMapFragment} (and
-     * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
-     * install/update the Google Play services APK on their device.
-     * <p/>
-     * A user can return to this FragmentActivity after following the prompt and correctly
-     * installing/updating/enabling the Google Play services. Since the FragmentActivity may not
-     * have been completely destroyed during this process (it is likely that it would only be
-     * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
-     * method in {@link #onResume()} to guarantee that it will be called.
-     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+    }
+
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
@@ -50,18 +70,86 @@ public class MapsActivity extends FragmentActivity {
                     .getMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
+                mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+
+                    private float currentZoom = -1;
+
+                    @Override
+                    public void onCameraChange(CameraPosition pos) {
+                        if (pos.zoom != currentZoom){
+                            currentZoom = pos.zoom;
+                            putMarkers();
+                        }
+                    }
+                });
                 setUpMap();
+
             }
         }
     }
 
-    /**
-     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-     * just add a marker near Africa.
-     * <p/>
-     * This should only be called once and when we are sure that {@link #mMap} is not null.
-     */
     private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        mMap.setMyLocationEnabled(true);
+        addListenerOnSpinnerItemSelection();
+        putMarkers();
+    }
+
+    private void addListenerOnSpinnerItemSelection() {
+        spinner = (Spinner) findViewById(R.id.spinner);
+    }
+
+
+    private void putMarkers() {
+
+        if (listaMarkers != null) {
+            for (int i = 0; i < listaMarkers.length; i++) {
+                String[] marcador = listaMarkers[i].split(";");
+                if(marcador[4].equals(spinner.getSelectedItem().toString()) || spinner.getSelectedItem().toString().equals("Todos")) {
+
+                    MarkerOptions mo = new MarkerOptions();
+                    mo.position(new LatLng(Float.valueOf(marcador[2]), Float.valueOf(marcador[3])));
+                    mo.title(marcador[0]);
+                    mo.snippet(marcador[1]);
+
+                    switch (marcador[4]) {
+                        case "Bicicletaria":
+                            mo.icon(BitmapDescriptorFactory
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                            break;
+                        case "Bicicletario":
+                            mo.icon(BitmapDescriptorFactory
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                            break;
+                        case "Restaurante":
+                            mo.icon(BitmapDescriptorFactory
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                            break;
+                        case "Paraciclo":
+                            mo.icon(BitmapDescriptorFactory
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                            break;
+                        default:
+                            mo.icon(BitmapDescriptorFactory
+                                    .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+                            break;
+                    }
+
+                    mMap.addMarker(mo);
+                }
+            }
+
+            listaMarkers = null;
+        }
+    }
+
+    public void setListaMarkers(String[] listaMarkers) {
+        this.listaMarkers = listaMarkers;
+    }
+
+
+    public void filtrar(View view) {
+        mMap.clear();
+        getMarkers();
+        putMarkers();
     }
 }

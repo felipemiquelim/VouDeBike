@@ -25,6 +25,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 import br.com.puc.facebookproject.ciclista.gerenciar_ciclista;
+import br.com.puc.facebookproject.maps.Direcion;
 import br.com.puc.facebookproject.maps.MapsActivity;
 
 /**
@@ -33,7 +34,7 @@ import br.com.puc.facebookproject.maps.MapsActivity;
 public class menu extends AppCompatActivity {
     ListView listView;
     ArrayAdapter<String> listAdapter;
-    String fragmentArray[] = {"GERENCIAR CONTA", "GOOGLE MAPS"};
+    String fragmentArray[] = {"GERENCIAR CONTA", "GOOGLE MAPS", "TRAÇAR ROTA"};
     DrawerLayout drawerLayout;
 
     private CallbackManager mCallBackManager;
@@ -111,6 +112,11 @@ public class menu extends AppCompatActivity {
                         //fragment = new FragmentTwo();
                         Intent i2 = new Intent(menu.this, MapsActivity.class);
                         startActivity(i2);
+                        break;
+                    case 2:
+                        //fragment = new FragmentTwo();
+                        Intent i3 = new Intent(menu.this, Direcion.class);
+                        startActivity(i3);
                         break;
                     default:
                         break;

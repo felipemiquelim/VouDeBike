@@ -11,6 +11,7 @@ import com.facebook.Profile;
 
 import br.com.puc.facebookproject.BackgroundTask;
 import br.com.puc.facebookproject.R;
+import br.com.puc.facebookproject.dataBase;
 import br.com.puc.facebookproject.menu;
 
 /**
@@ -19,6 +20,7 @@ import br.com.puc.facebookproject.menu;
 public class gerenciar_ciclista extends Activity {
     private Profile profile;
     String nome, email, celular, status;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,5 +74,10 @@ public class gerenciar_ciclista extends Activity {
         Intent i;
         i = new Intent(gerenciar_ciclista.this, menu.class);
         startActivity(i);
+        finish();
     }
+
+
+
+
 }
