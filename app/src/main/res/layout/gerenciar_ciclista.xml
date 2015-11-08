@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Email"
-            android:id="@+id/txtemail"
+            android:id="@+id/txtendereco"
             android:editable="false"
             android:layout_above="@+id/edtemail"
             android:layout_alignRight="@+id/txtnome"
@@ -49,8 +49,8 @@
             android:id="@+id/txtcelular"
             android:layout_centerVertical="true"
             android:editable="false"
-            android:layout_alignLeft="@+id/txtemail"
-            android:layout_alignStart="@+id/txtemail" />
+            android:layout_alignLeft="@+id/txtendereco"
+            android:layout_alignStart="@+id/txtendereco" />
 
         <Button
             android:layout_width="wrap_content"

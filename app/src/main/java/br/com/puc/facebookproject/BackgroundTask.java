@@ -6,6 +6,11 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -61,6 +66,10 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
         else if (result.equals("Deactivate Success...")) {
             Toast.makeText(ctx,result,Toast.LENGTH_LONG).show();
         }
+        else if (result.equals("Admin") || result.equals("User")) {
+            if (result.equals("Admin"))
+                mParent.setAdmin(true);
+        }
         else {
             //alertDialog.setMessage(result);
             //alertDialog.show();
@@ -81,6 +90,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
         String sel_url = ip + "ciclista/select.php";
         String upd_url = ip + "ciclista/update.php";
         String des_url = ip + "ciclista/desativar.php";
+        String adm_url = ip + "ciclista/selectAdmin.php";
 
         String method = params[0];
         if(method.equals("register"))
@@ -203,6 +213,49 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(method.equals("verificaAdmin")) {
+            try {
+                String nome = params[1];
+                URL url = new URL(sel_url);
+                HttpURLConnection httpURLConnection2 = (HttpURLConnection) url.openConnection();
+                httpURLConnection2.setDoOutput(true);
+                httpURLConnection2.setRequestMethod("POST");
+                httpURLConnection2.setDoInput(true);
+                OutputStream OS = httpURLConnection2.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
+                String data = URLEncoder.encode("nome","UTF-8") + "=" + URLEncoder.encode(nome, "UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                OS.close();
+
+                InputStream IS = httpURLConnection2.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(IS, "iso-8859-1"));
+                String response = "";
+                String line = "";
+                while((line = bufferedReader.readLine())!=null) {
+                    response += line;
+                }
+                bufferedReader.close();
+                IS.close();
+                httpURLConnection2.disconnect();
+
+                if (response.trim().equals("1"))
+                    return "Admin";
+                else
+                    return "User";
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

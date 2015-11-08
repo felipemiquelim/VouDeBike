@@ -34,8 +34,9 @@ import br.com.puc.facebookproject.maps.MapsActivity;
 public class menu extends AppCompatActivity {
     ListView listView;
     ArrayAdapter<String> listAdapter;
-    String fragmentArray[] = {"GERENCIAR CONTA", "GOOGLE MAPS", "TRAÇAR ROTA"};
+    String fragmentArray[] = {"GERENCIAR CONTA", "BIKE FRIENDLY", "TRAÇAR ROTA", "ADMIN"};
     DrawerLayout drawerLayout;
+    Boolean admin = false;
 
     private CallbackManager mCallBackManager;
     private FacebookCallback<LoginResult> mCallback= new FacebookCallback<LoginResult>() {
@@ -91,6 +92,9 @@ public class menu extends AppCompatActivity {
         //Verifica se o ciclista já está cadastrado no BD
         clienteExiste();
 
+        //Verifica se é Admin
+        administrador();
+
     }
 
     private void setDrawers() {
@@ -118,6 +122,14 @@ public class menu extends AppCompatActivity {
                         Intent i3 = new Intent(menu.this, Direcion.class);
                         startActivity(i3);
                         break;
+                    case 3:
+                        //fragment = new FragmentTwo();
+                        if (admin) {
+                            Intent i4 = new Intent(menu.this, admin.class);
+                            startActivity(i4);
+                        } else
+                            Toast.makeText(getApplicationContext(), "Permissões insuficientes", Toast.LENGTH_LONG).show();
+                        break;
                     default:
                         break;
                 }
@@ -126,6 +138,14 @@ public class menu extends AppCompatActivity {
                 drawerLayout.closeDrawers();
             }
         });
+    }
+
+    private void administrador() {
+        String method="verificaAdmin";
+        Profile profile = Profile.getCurrentProfile();
+
+        BackgroundTask backgroundTask = new BackgroundTask(getApplicationContext(),this);
+        backgroundTask.execute(method, profile.getName());
     }
 
     private void clienteExiste() {
@@ -164,6 +184,10 @@ public class menu extends AppCompatActivity {
         LoginManager.getInstance().logOut();
         Intent i = new Intent(menu.this, MainActivity.class);
         startActivity(i);
+    }
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
     }
 
 }

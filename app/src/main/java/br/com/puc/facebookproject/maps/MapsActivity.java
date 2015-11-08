@@ -3,6 +3,7 @@ package br.com.puc.facebookproject.maps;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -10,6 +11,7 @@ import android.location.LocationManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,7 +33,7 @@ public class MapsActivity extends FragmentActivity {
     String[] listaMarkers;
     private Spinner spinner;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-
+    private Double newEstabelecimentoLat, newEstabelecimentoLong;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,24 +91,31 @@ public class MapsActivity extends FragmentActivity {
                     public void onMapClick(LatLng point) {
                         // TODO Auto-generated method stub
                         //lstLatLngs.add(point);
-                        mMap.clear();
                         mMap.addMarker(new MarkerOptions().position(point)
                         .draggable(true)
                         .title("New Place")
                         .snippet("Click on the button below to add")
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.cycling)));
+
+                        newEstabelecimentoLat = point.latitude;
+                        newEstabelecimentoLong = point.longitude;
+
+                        Button btnIncluir = (Button) findViewById(R.id.btnIncluir);
+                        btnIncluir.setEnabled(true);
                     }
                 });
                 setUpMap();
-
             }
         }
     }
+
 
     private void setUpMap() {
         mMap.setMyLocationEnabled(true);
         addListenerOnSpinnerItemSelection();
         putMarkers();
+        Button btnIncluir = (Button) findViewById(R.id.btnIncluir);
+        btnIncluir.setEnabled(false);
     }
 
     private void addListenerOnSpinnerItemSelection() {
@@ -167,4 +176,16 @@ public class MapsActivity extends FragmentActivity {
         getMarkers();
         putMarkers();
     }
+
+    public void onButtonClick(View v){
+        if(v.getId()==R.id.btnIncluir){
+            Intent i = new Intent(MapsActivity.this,cadastro_estabelecimento.class);
+            Bundle b = new Bundle();
+            b.putDouble("lat", newEstabelecimentoLat);
+            b.putDouble("long", newEstabelecimentoLong);
+            i.putExtras(b); //Put your id to your next Intent
+            startActivity(i);
+        }
+    }
+
 }

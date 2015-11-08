@@ -52,13 +52,18 @@ public class dataBase extends AsyncTask <String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-            Toast.makeText(ctx,"Markers carregados",Toast.LENGTH_LONG).show();
+        if (result.equals("Registration Success")) {
+            Toast.makeText(ctx, "Cadastro Efetuado", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(ctx, "Markers carregados", Toast.LENGTH_LONG).show();
             mParent.setListaMarkers(listaElementos);
+        }
     }
 
     @Override
     protected String doInBackground(String... params) {
         String sel_url = ip + "maps/selectAll.php";
+        String ins_url = ip + "maps/insert.php";
 
         String method = params[0];
         String status = "1";
@@ -111,6 +116,43 @@ public class dataBase extends AsyncTask <String, Void, String> {
                 e.printStackTrace();
             }
         }
+        if(method.equals("insert"))
+        {
+            String razao = params[1];
+            String tipo = params[2];
+            String endereco = params[3];
+            String tel = params[4];
+            String lat = params[5];
+            String lon = params[6];
+            try {
+                URL url = new URL(ins_url);
+                HttpURLConnection httpURLConnection3 = (HttpURLConnection) url.openConnection();
+                httpURLConnection3.setRequestMethod("POST");
+                httpURLConnection3.setDoOutput(true);
+                OutputStream OS = httpURLConnection3.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
+                String data = URLEncoder.encode("razao", "UTF-8") + "=" + URLEncoder.encode(razao, "UTF-8") + "&" +
+                        URLEncoder.encode("tipo", "UTF-8") + "="  + URLEncoder.encode(tipo, "UTF-8") + "&" +
+                        URLEncoder.encode("endereco", "UTF-8") + "=" + URLEncoder.encode(endereco, "UTF-8") + "&" +
+                        URLEncoder.encode("lat", "UTF-8") + "=" + URLEncoder.encode(lat, "UTF-8") + "&" +
+                        URLEncoder.encode("long", "UTF-8") + "=" + URLEncoder.encode(lon, "UTF-8") + "&" +
+                        URLEncoder.encode("tel", "UTF-8") + "=" + URLEncoder.encode(tel, "UTF-8") + "&";
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                OS.close();
+                InputStream IS = httpURLConnection3.getInputStream();
+                IS.close();
+
+                return "Registration Success";
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
 
         return null;
     }
