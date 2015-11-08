@@ -58,18 +58,21 @@ public class dataBase extends AsyncTask <String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        String sel_url = ip + "maps/select.php";
+        String sel_url = ip + "maps/selectAll.php";
 
         String method = params[0];
+        String status = "1";
 
         if(method.equals("select")) {
             try {
                 URL url = new URL(sel_url);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoOutput(true);
-                httpURLConnection.setDoInput(true);
-                OutputStream OS = httpURLConnection.getOutputStream();
+                HttpURLConnection httpURLConnection2 = (HttpURLConnection) url.openConnection();
+                httpURLConnection2.disconnect();
+                httpURLConnection2 = (HttpURLConnection) url.openConnection();
+                httpURLConnection2.setDoOutput(true);
+                httpURLConnection2.setRequestMethod("POST");
+                httpURLConnection2.setDoInput(true);
+                OutputStream OS = httpURLConnection2.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
                 String data = URLEncoder.encode("nome","UTF-8") + "=" + URLEncoder.encode("name", "UTF-8");
                 bufferedWriter.write(data);
@@ -77,7 +80,7 @@ public class dataBase extends AsyncTask <String, Void, String> {
                 bufferedWriter.close();
                 OS.close();
 
-                Document doc = parseXML(httpURLConnection.getInputStream());
+                Document doc = parseXML(httpURLConnection2.getInputStream());
                 NodeList descNodes = doc.getElementsByTagName("marker");
                 listaElementos = new String[descNodes.getLength()];
 
@@ -91,9 +94,10 @@ public class dataBase extends AsyncTask <String, Void, String> {
                     String lat = element.getAttribute("lat");
                     String lon = element.getAttribute("lng");
                     String type = element.getAttribute("type");
-                    listaElementos[i] = name + ";" + address + ";" + lat + ";" + lon + ";" + type;
+                    String tel = element.getAttribute("telefone");
+                    listaElementos[i] = name + ";" + address + ";" + lat + ";" + lon + ";" + type + ";" + tel;
                 }
-                httpURLConnection.disconnect();
+                httpURLConnection2.disconnect();
 
                 return "OK";
 

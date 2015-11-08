@@ -104,27 +104,27 @@ public class MapsActivity extends FragmentActivity {
         if (listaMarkers != null) {
             for (int i = 0; i < listaMarkers.length; i++) {
                 String[] marcador = listaMarkers[i].split(";");
-                if(marcador[4].equals(spinner.getSelectedItem().toString()) || spinner.getSelectedItem().toString().equals("Todos")) {
+                if(marcador[4].equals(spinner.getSelectedItem().toString().toUpperCase()) || spinner.getSelectedItem().toString().equals("Todos")) {
 
                     MarkerOptions mo = new MarkerOptions();
                     mo.position(new LatLng(Float.valueOf(marcador[2]), Float.valueOf(marcador[3])));
-                    mo.title(marcador[0]);
+                    mo.title(marcador[0] + " Tel:" + marcador[5]);
                     mo.snippet(marcador[1]);
 
                     switch (marcador[4]) {
-                        case "Bicicletaria":
+                        case "COMER E BEBER":
                             mo.icon(BitmapDescriptorFactory
                                     .defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
                             break;
-                        case "Bicicletario":
+                        case "LAZER":
                             mo.icon(BitmapDescriptorFactory
                                     .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
                             break;
-                        case "Restaurante":
+                        case "HOSPEDAGEM":
                             mo.icon(BitmapDescriptorFactory
                                     .defaultMarker(BitmapDescriptorFactory.HUE_RED));
                             break;
-                        case "Paraciclo":
+                        case "BICICLETARIA":
                             mo.icon(BitmapDescriptorFactory
                                     .defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                             break;

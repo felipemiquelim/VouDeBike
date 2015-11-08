@@ -8,10 +8,10 @@
 
     <string-array name="estabelecimentos">
         <item>Todos</item>
+        <item>Lazer</item>
+        <item>Comer e Beber</item>
+        <item>Hospedagem</item>
         <item>Bicicletaria</item>
-        <item>Bicicletario</item>
-        <item>Paraciclo</item>
-        <item>Restaurante</item>
         <item>Outros</item>
     </string-array>
     <string name="spinner">Escolha o tipo de estabelecimento</string>
