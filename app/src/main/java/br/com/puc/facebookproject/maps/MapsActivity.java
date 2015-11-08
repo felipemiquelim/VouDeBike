@@ -82,6 +82,21 @@ public class MapsActivity extends FragmentActivity {
                         }
                     }
                 });
+
+                mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+                    @Override
+                    public void onMapClick(LatLng point) {
+                        // TODO Auto-generated method stub
+                        //lstLatLngs.add(point);
+                        mMap.clear();
+                        mMap.addMarker(new MarkerOptions().position(point)
+                        .draggable(true)
+                        .title("New Place")
+                        .snippet("Click on the button below to add")
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.cycling)));
+                    }
+                });
                 setUpMap();
 
             }
