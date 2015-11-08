@@ -38,11 +38,16 @@ public class dataBase extends AsyncTask <String, Void, String> {
     Context ctx;
     AlertDialog alertDialog;
     MapsActivity mParent;
+    admin mParentAdm;
     private String[] listaElementos;
     String ip = "http://192.168.0.12/voudebike/";
 
     public dataBase(Context ctx, MapsActivity ma) {
         this.mParent = ma;
+        this.ctx = ctx;
+    }
+    public dataBase(Context ctx, admin adm) {
+        this.mParentAdm = adm;
         this.ctx = ctx;
     }
 
@@ -54,7 +59,15 @@ public class dataBase extends AsyncTask <String, Void, String> {
     protected void onPostExecute(String result) {
         if (result.equals("Registration Success")) {
             Toast.makeText(ctx, "Cadastro Efetuado", Toast.LENGTH_LONG).show();
-        } else {
+        }
+        else if (result.equals("Pending")) {
+            Toast.makeText(ctx, "Estabelecimentos Carregados", Toast.LENGTH_LONG).show();
+            mParentAdm.setEstabelecimentos(listaElementos);
+        }
+        else if (result.equals("Updated Status")) {
+            Toast.makeText(ctx, "Estabelecimento Aprovado", Toast.LENGTH_LONG).show();
+        }
+        else {
             Toast.makeText(ctx, "Markers carregados", Toast.LENGTH_LONG).show();
             mParent.setListaMarkers(listaElementos);
         }
@@ -63,7 +76,9 @@ public class dataBase extends AsyncTask <String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
         String sel_url = ip + "maps/selectAll.php";
+        String spen_url = ip + "maps/selectAllPending.php";
         String ins_url = ip + "maps/insert.php";
+        String upd_url = ip + "maps/update.php";
 
         String method = params[0];
         String status = "1";
@@ -151,6 +166,78 @@ public class dataBase extends AsyncTask <String, Void, String> {
                 e.printStackTrace();
             }
 
+        }
+        else if(method.equals("selectAllPend")) {
+            try {
+                URL url = new URL(spen_url);
+                HttpURLConnection httpURLConnection2 = (HttpURLConnection) url.openConnection();
+                httpURLConnection2.disconnect();
+                httpURLConnection2 = (HttpURLConnection) url.openConnection();
+                httpURLConnection2.setDoOutput(true);
+                httpURLConnection2.setRequestMethod("POST");
+                httpURLConnection2.setDoInput(true);
+                OutputStream OS = httpURLConnection2.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
+                String data = URLEncoder.encode("nome","UTF-8") + "=" + URLEncoder.encode("name", "UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                OS.close();
+
+                Document doc = parseXML(httpURLConnection2.getInputStream());
+                NodeList descNodes = doc.getElementsByTagName("marker");
+                listaElementos = new String[descNodes.getLength()];
+
+                for(int i=0; i<descNodes.getLength();i++)
+                {
+                    Node checkNode=descNodes.item(i);
+
+                    Element element = (Element) checkNode;
+                    String name = element.getAttribute("name");
+                    String address = element.getAttribute("address");
+                    String id = element.getAttribute("id");
+                    //String lon = element.getAttribute("lng");
+                    //String type = element.getAttribute("type");
+                    //String tel = element.getAttribute("telefone");
+                    //listaElementos[i] = name + ";" + address + ";" + lat + ";" + lon + ";" + type + ";" + tel;
+                    listaElementos[i] = id + "; " + name + "; END: " + address;
+                }
+                httpURLConnection2.disconnect();
+
+                return "Pending";
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else if(method.equals("aprovar")) {
+            String id = params[1];
+            try {
+                URL url = new URL(upd_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                OutputStream OS = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
+                String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8") + "&";
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                OS.close();
+                InputStream IS = httpURLConnection.getInputStream();
+                IS.close();
+                return "Updated Status";
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
 
