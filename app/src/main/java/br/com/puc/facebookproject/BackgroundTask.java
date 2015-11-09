@@ -70,6 +70,9 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
             if (result.equals("Admin"))
                 mParent.setAdmin(true);
         }
+        else if (result.equals("Autorizado")) {
+            Toast.makeText(ctx,result,Toast.LENGTH_LONG).show();
+        }
         else {
             //alertDialog.setMessage(result);
             //alertDialog.show();
@@ -91,6 +94,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
         String upd_url = ip + "ciclista/update.php";
         String des_url = ip + "ciclista/desativar.php";
         String adm_url = ip + "ciclista/selectAdmin.php";
+        String aut_url = ip + "ciclista/autorizar.php";
 
         String method = params[0];
         if(method.equals("register"))
@@ -219,7 +223,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
         else if(method.equals("verificaAdmin")) {
             try {
                 String nome = params[1];
-                URL url = new URL(sel_url);
+                URL url = new URL(adm_url);
                 HttpURLConnection httpURLConnection2 = (HttpURLConnection) url.openConnection();
                 httpURLConnection2.setDoOutput(true);
                 httpURLConnection2.setRequestMethod("POST");
@@ -256,6 +260,29 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else if(method.equals("autorizar")) {
+            String email = params[1];
+            try {
+                URL url = new URL(aut_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                OutputStream OS = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
+                String data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8") + "&";
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                OS.close();
+                InputStream IS = httpURLConnection.getInputStream();
+                IS.close();
+                return "Autorizado";
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

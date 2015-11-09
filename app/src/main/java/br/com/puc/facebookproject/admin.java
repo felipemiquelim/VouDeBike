@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.facebook.Profile;
@@ -43,6 +44,13 @@ public class admin extends Activity {
     }
 
     private void autorizar() {
+        String method="autorizar";
+        EditText edtemail = (EditText) findViewById(R.id.edtemail);
+        String email = edtemail.getText().toString();
+
+        BackgroundTask bt = new BackgroundTask(getApplicationContext());
+        bt.execute(method,email);
+        edtemail.setText("Email");
     }
 
     private void aprovar() {
