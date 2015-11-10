@@ -153,7 +153,7 @@ public class menu extends AppCompatActivity {
         Profile profile = Profile.getCurrentProfile();
 
         BackgroundTask backgroundTask = new BackgroundTask(getApplicationContext(),this);
-        backgroundTask.execute(method, profile.getName());
+        backgroundTask.execute(method, profile.getId());
     }
 
     public void onButtonClick(View v) {

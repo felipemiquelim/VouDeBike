@@ -103,6 +103,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
             String email = params[2];
             String celular = params[3];
             String status = params[4];
+            String id = params[5];
             try {
                 URL url = new URL(reg_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -113,6 +114,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
             String data = URLEncoder.encode("nome", "UTF-8") + "=" + URLEncoder.encode(nome, "UTF-8") + "&" +
                         URLEncoder.encode("email", "UTF-8") + "="  + URLEncoder.encode(email, "UTF-8") + "&" +
                         URLEncoder.encode("celular", "UTF-8") + "=" + URLEncoder.encode(celular, "UTF-8") + "&" +
+                        URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8") + "&" +
                         URLEncoder.encode("status", "UTF-8") + "=" + URLEncoder.encode(status, "UTF-8") + "&";
                 bufferedWriter.write(data);
                 bufferedWriter.flush();
@@ -128,7 +130,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
             }
         }
         else if(method.equals("verificaCliente")) {
-            String name = params[1];
+            String id = params[1];
             try {
                 URL url = new URL(sel_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -137,7 +139,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
                 httpURLConnection.setDoInput(true);
                 OutputStream OS = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
-            String data = URLEncoder.encode("nome","UTF-8") + "=" + URLEncoder.encode(name, "UTF-8");
+            String data = URLEncoder.encode("id","UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
                 bufferedWriter.write(data);
                 bufferedWriter.flush();
                 bufferedWriter.close();

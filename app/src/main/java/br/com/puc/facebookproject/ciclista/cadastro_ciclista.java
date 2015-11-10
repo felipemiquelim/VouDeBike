@@ -16,7 +16,7 @@ import br.com.puc.facebookproject.R;
  */
 public class cadastro_ciclista extends Activity {
     private Profile profile;
-    String nome, email, celular, status;
+    String nome, email, celular, status, id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +31,7 @@ public class cadastro_ciclista extends Activity {
         TextView edtnome = (TextView) findViewById(R.id.edtnome);
 
         edtnome.setText(profile.getName());
+        id = profile.getId();
     }
 
     public void cadastrar(View view) {
@@ -43,9 +44,10 @@ public class cadastro_ciclista extends Activity {
         celular = edtcelular.getText().toString();
         status = "1";
 
+
         String method = "register";
         BackgroundTask backgroundTask = new BackgroundTask(this);
-        backgroundTask.execute(method,nome, email, celular, status);
+        backgroundTask.execute(method,nome, email, celular, status, id);
         finish();
     }
 

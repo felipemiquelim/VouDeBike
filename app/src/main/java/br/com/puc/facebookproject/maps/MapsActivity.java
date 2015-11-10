@@ -89,8 +89,11 @@ public class MapsActivity extends FragmentActivity {
 
                     @Override
                     public void onMapClick(LatLng point) {
-                        // TODO Auto-generated method stub
-                        //lstLatLngs.add(point);
+                        mMap.clear();
+                        getMarkers();
+                        putMarkers();
+
+
                         mMap.addMarker(new MarkerOptions().position(point)
                         .draggable(true)
                         .title("New Place")
