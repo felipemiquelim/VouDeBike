@@ -1,7 +1,14 @@
 package br.com.puc.facebookproject;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +32,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 import br.com.puc.facebookproject.ciclista.gerenciar_ciclista;
+import br.com.puc.facebookproject.localizacao.localizacaoDB;
 import br.com.puc.facebookproject.maps.Direcion;
 import br.com.puc.facebookproject.maps.MapsActivity;
 
@@ -39,7 +47,7 @@ public class menu extends AppCompatActivity {
     Boolean admin = false;
 
     private CallbackManager mCallBackManager;
-    private FacebookCallback<LoginResult> mCallback= new FacebookCallback<LoginResult>() {
+    private FacebookCallback<LoginResult> mCallback = new FacebookCallback<LoginResult>() {
         private ProfileTracker mProfileTracker;
 
         @Override
@@ -71,9 +79,6 @@ public class menu extends AppCompatActivity {
     };
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -81,7 +86,7 @@ public class menu extends AppCompatActivity {
         setContentView(R.layout.menu);
 
         mCallBackManager = CallbackManager.Factory.create();
-        LoginButton logoutButton =  (LoginButton) findViewById(R.id.logout_button);
+        LoginButton logoutButton = (LoginButton) findViewById(R.id.logout_button);
         //loginButton.setReadPermissions("user_friends");
 
         logoutButton.registerCallback(mCallBackManager, mCallback);
@@ -100,7 +105,7 @@ public class menu extends AppCompatActivity {
     private void setDrawers() {
         listView = (ListView) findViewById(R.id.listView);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,fragmentArray);
+        listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, fragmentArray);
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -141,18 +146,18 @@ public class menu extends AppCompatActivity {
     }
 
     private void administrador() {
-        String method="verificaAdmin";
+        String method = "verificaAdmin";
         Profile profile = Profile.getCurrentProfile();
 
-        BackgroundTask backgroundTask = new BackgroundTask(getApplicationContext(),this);
+        BackgroundTask backgroundTask = new BackgroundTask(getApplicationContext(), this);
         backgroundTask.execute(method, profile.getName());
     }
 
     private void clienteExiste() {
-        String method="verificaCliente";
+        String method = "verificaCliente";
         Profile profile = Profile.getCurrentProfile();
 
-        BackgroundTask backgroundTask = new BackgroundTask(getApplicationContext(),this);
+        BackgroundTask backgroundTask = new BackgroundTask(getApplicationContext(), this);
         backgroundTask.execute(method, profile.getId());
     }
 
@@ -169,16 +174,43 @@ public class menu extends AppCompatActivity {
             Intent i = new Intent(menu.this, shareactivity.class);
             startActivity(i);
         }
+        if (v.getId() == R.id.btnLoc) {
+            cadastrarLoc();
+        }
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (mCallBackManager.onActivityResult(requestCode, resultCode, data)) {
-            return;
+
+    private void cadastrarLoc() {
+        Profile profile = Profile.getCurrentProfile();
+        String id = profile.getId();
+
+        LocationManager lm = (LocationManager) getSystemService(getApplicationContext().LOCATION_SERVICE);
+
+        /*Location location;
+        location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();*/
+        GPSTracker gps = new GPSTracker(this);
+
+        if (gps.canGetLocation()) {
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+
+
+            String method = "register";
+            localizacaoDB loc = new localizacaoDB(this);
+            loc.execute(method, id, String.valueOf(latitude), String.valueOf(longitude));
         }
     }
+
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+            if (mCallBackManager.onActivityResult(requestCode, resultCode, data)) {
+                return;
+            }
+        }
 
     public void faceLogout(View view) {
         LoginManager.getInstance().logOut();
@@ -189,5 +221,7 @@ public class menu extends AppCompatActivity {
     public void setAdmin(Boolean admin) {
         this.admin = admin;
     }
+
+
 
 }

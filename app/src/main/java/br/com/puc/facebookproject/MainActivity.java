@@ -26,8 +26,10 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
+import com.facebook.login.LoginClient;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.appdatasearch.GetRecentContextCall;
 
 //import br.com.puc.sqlite.MySQLiteHelper;
 //import br.com.puc.sqlite.br.com.puc.sqlite.crud.TB_CICLISTA;
