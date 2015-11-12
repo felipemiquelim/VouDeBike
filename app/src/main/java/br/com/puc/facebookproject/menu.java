@@ -25,11 +25,15 @@ import android.widget.Toast;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphRequestBatch;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
+import com.facebook.login.LoginClient;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.appdatasearch.GetRecentContextCall;
 
 import br.com.puc.facebookproject.ciclista.gerenciar_ciclista;
 import br.com.puc.facebookproject.localizacao.localizacaoDB;
@@ -223,5 +227,42 @@ public class menu extends AppCompatActivity {
     }
 
 
+   /*private void teste(){
+        GraphRequestBatch batch = new GraphRequestBatch(
+                GraphRequest.newMyFriendsRequest(
+                        accessToken,
+                        new GraphRequest.GraphJSONArrayCallback() {
+                            @Override
+                            public void onCompleted(
+                                    JSONArray jsonArray,
+                                    GraphResponse response) {
+                                // Application code for users friends
+                                System.out.println("getFriendsData onCompleted : jsonArray " + jsonArray);
+                                System.out.println("getFriendsData onCompleted : response " + response);
+                                try {
+                                    JSONObject jsonObject = response.getJSONObject();
+                                    System.out.println("getFriendsData onCompleted : jsonObject " + jsonObject);
+                                    JSONObject summary = jsonObject.getJSONObject("summary");
+                                    System.out.println("getFriendsData onCompleted : summary total_count - " + summary.getString("total_count"));
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        })
+
+        );
+        batch.addCallback(new GraphRequestBatch.Callback() {
+            @Override
+            public void onBatchCompleted(GraphRequestBatch graphRequests) {
+                // Application code for when the batch finishes
+            }
+        });
+        batch.executeAsync();
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,link,picture");
+
+
+    }*/
 
 }
