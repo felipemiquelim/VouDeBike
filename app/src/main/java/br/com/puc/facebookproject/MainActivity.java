@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
                                                 + jarray);
                                         Log.i("friends", "onCompleted: response "
                                                 + response);
-                                        Toast.makeText(MainActivity.this, "result:" + jarray.toString(), Toast.LENGTH_LONG).show();
+                                        //Toast.makeText(MainActivity.this, "result:" + jarray.toString(), Toast.LENGTH_LONG).show();
                                     }
                                 }),
                         GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {

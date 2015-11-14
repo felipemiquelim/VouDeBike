@@ -166,19 +166,24 @@ public class menu extends AppCompatActivity {
     }
 
     public void onButtonClick(View v) {
-        if (v.getId() == R.id.bShareOnFacebook) {
-            Intent i = new Intent(menu.this, shareonfacebook.class);
+        if (v.getId() == R.id.btnFacebook) {
+            /*Intent i = new Intent(menu.this, shareonfacebook.class);
             startActivity(i);
-        }
-        if (v.getId() == R.id.bShareLocation) {
             Intent i = new Intent(menu.this, sharelocationgps.class);
             startActivity(i);
-        }
-        if (v.getId() == R.id.bShareActivity) {
             Intent i = new Intent(menu.this, shareactivity.class);
+            startActivity(i);*/
+        }
+        if (v.getId() == R.id.btnEstabelecimento) {
+            Intent i = new Intent(menu.this, MapsActivity.class);
             startActivity(i);
         }
-        if (v.getId() == R.id.btnLoc) {
+        if (v.getId() == R.id.btnRota) {
+            Intent i = new Intent(menu.this, Direcion.class);
+            startActivity(i);
+
+        }
+        if (v.getId() == R.id.btnLocalizacao) {
             cadastrarLoc();
         }
 
