@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.puc.facebookproject.GPSTracker;
 import br.com.puc.facebookproject.R;
 import br.com.puc.facebookproject.dataBase;
 
@@ -114,6 +116,17 @@ public class MapsActivity extends FragmentActivity {
 
 
     private void setUpMap() {
+        GPSTracker gps = new GPSTracker(this);
+
+        if (gps.canGetLocation()) {
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+            LatLng coordinate = new LatLng(latitude, longitude);
+            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 14);
+            mMap.animateCamera(yourLocation);
+
+        }
+
         mMap.setMyLocationEnabled(true);
         addListenerOnSpinnerItemSelection();
         putMarkers();

@@ -85,6 +85,6 @@
         android:foregroundGravity="left"
         android:id="@+id/listView"
         android:layout_gravity="left"
-        android:background="@color/com_facebook_button_login_silver_background_color"></ListView>
+        android:background="#cee2f4"></ListView>
 
 </android.support.v4.widget.DrawerLayout>

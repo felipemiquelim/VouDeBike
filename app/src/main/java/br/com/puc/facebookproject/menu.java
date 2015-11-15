@@ -36,6 +36,7 @@ import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.appdatasearch.GetRecentContextCall;
 
 import br.com.puc.facebookproject.ciclista.gerenciar_ciclista;
+import br.com.puc.facebookproject.localizacao.localizacao;
 import br.com.puc.facebookproject.localizacao.localizacaoDB;
 import br.com.puc.facebookproject.maps.Direcion;
 import br.com.puc.facebookproject.maps.MapsActivity;
@@ -46,7 +47,7 @@ import br.com.puc.facebookproject.maps.MapsActivity;
 public class menu extends AppCompatActivity {
     ListView listView;
     ArrayAdapter<String> listAdapter;
-    String fragmentArray[] = {"GERENCIAR CONTA", "BIKE FRIENDLY", "TRAÇAR ROTA", "ADMIN"};
+    String fragmentArray[] = {"GERENCIAR CONTA", "ADMIN"};
     DrawerLayout drawerLayout;
     Boolean admin = false;
 
@@ -123,16 +124,6 @@ public class menu extends AppCompatActivity {
                         break;
                     case 1:
                         //fragment = new FragmentTwo();
-                        Intent i2 = new Intent(menu.this, MapsActivity.class);
-                        startActivity(i2);
-                        break;
-                    case 2:
-                        //fragment = new FragmentTwo();
-                        Intent i3 = new Intent(menu.this, Direcion.class);
-                        startActivity(i3);
-                        break;
-                    case 3:
-                        //fragment = new FragmentTwo();
                         if (admin) {
                             Intent i4 = new Intent(menu.this, admin.class);
                             startActivity(i4);
@@ -184,34 +175,14 @@ public class menu extends AppCompatActivity {
 
         }
         if (v.getId() == R.id.btnLocalizacao) {
-            cadastrarLoc();
+            Intent i = new Intent(menu.this, localizacao.class);
+            startActivity(i);
         }
 
     }
 
 
-    private void cadastrarLoc() {
-        Profile profile = Profile.getCurrentProfile();
-        String id = profile.getId();
 
-        LocationManager lm = (LocationManager) getSystemService(getApplicationContext().LOCATION_SERVICE);
-
-        /*Location location;
-        location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        double longitude = location.getLongitude();
-        double latitude = location.getLatitude();*/
-        GPSTracker gps = new GPSTracker(this);
-
-        if (gps.canGetLocation()) {
-            double latitude = gps.getLatitude();
-            double longitude = gps.getLongitude();
-
-
-            String method = "register";
-            localizacaoDB loc = new localizacaoDB(this);
-            loc.execute(method, id, String.valueOf(latitude), String.valueOf(longitude));
-        }
-    }
 
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data) {

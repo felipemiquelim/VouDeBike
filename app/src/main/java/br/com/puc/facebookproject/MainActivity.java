@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
             };
             mProfileTracker.startTracking();
             accessToken = loginResult.getAccessToken();
-            new GetFriendList().execute();
             getProfile();
 
             if (profile != null) {
@@ -182,69 +181,5 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    class GetFriendList extends AsyncTask<String, String, String> {
-        ProgressDialog pdig = new ProgressDialog(MainActivity.this);
-        @Override
-        protected String doInBackground(String... params) {
-            //AccessToken accesstoken = AccessToken.getCurrentAccessToken();
-            Log.i("friends", "Working in background...");
-            //LoginManager.getInstance().logInWithReadPermissions(FriendList.this, Arrays.asList("user_friends"));
-            //Log.i(TAG,"Having token for: "+String.valueOf(AccessToken.getCurrentAccessToken().getPermissions()));
-            if(accessToken!=null) {
-                GraphRequestBatch batch = new GraphRequestBatch(
-                        GraphRequest.newMyFriendsRequest(accessToken,
-                                new GraphRequest.GraphJSONArrayCallback() {
-                                    @Override
-                                    public void onCompleted(JSONArray jarray,
-                                                            GraphResponse response) {
-                                        Log.i("friends", "onCompleted: jsonArray "
-                                                + jarray);
-                                        Log.i("friends", "onCompleted: response "
-                                                + response);
-                                        //Toast.makeText(MainActivity.this, "result:" + jarray.toString(), Toast.LENGTH_LONG).show();
-                                    }
-                                }),
-                        GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
-
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
-                                System.out.println("meJSONObject: " + object);
-                                System.out.println("meGraphResponse: " + response);
-
-                            }
-                        })
-                );
-                batch.addCallback(new GraphRequestBatch.Callback() {
-
-                    @Override
-                    public void onBatchCompleted(GraphRequestBatch batch) {
-                        Log.i("friends", "onbatchCompleted: jsonArray "
-                                + batch);
-                    }
-                });
-                batch.executeAndWait();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            if (pdig.isShowing())
-                pdig.dismiss();
-            super.onPostExecute(result);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            pdig.setTitle("Fetching");
-            pdig.setMessage("Fetching facebook friends...");
-            //pdig.show();
-            Log.i("friends", "Starting...");
-            super.onPreExecute();
-        }
-
-
-    }
 
 }

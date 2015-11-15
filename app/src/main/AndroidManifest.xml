@@ -40,6 +40,7 @@
         <activity android:name=".maps.Direcion"></activity>
         <activity android:name=".maps.cadastro_estabelecimento"></activity>
         <activity android:name=".admin"></activity>
+        <activity android:name=".localizacao.localizacao"></activity>
 
 
     <activity
