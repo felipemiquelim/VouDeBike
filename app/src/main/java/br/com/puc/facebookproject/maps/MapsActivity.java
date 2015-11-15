@@ -160,10 +160,6 @@ public class MapsActivity extends FragmentActivity {
                             mo.icon(BitmapDescriptorFactory
                                     .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
                             break;
-                        case "HOSPEDAGEM":
-                            mo.icon(BitmapDescriptorFactory
-                                    .defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                            break;
                         case "BICICLETARIA":
                             mo.icon(BitmapDescriptorFactory
                                     .defaultMarker(BitmapDescriptorFactory.HUE_GREEN));

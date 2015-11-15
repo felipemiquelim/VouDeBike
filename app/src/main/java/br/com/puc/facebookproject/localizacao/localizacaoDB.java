@@ -28,7 +28,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  */
 public class localizacaoDB extends AsyncTask<String, Void, String> {
     Context ctx;
-    String ip = "http://192.168.0.12/voudebike/";
+    String ip = "http://192.168.0.12//voudebike/";
 
 
     public void setFriendList(String[] friendList) {
@@ -169,9 +169,11 @@ public class localizacaoDB extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if (result.equals("Loc Registration Success")) {
-            Toast.makeText(ctx,result,Toast.LENGTH_LONG).show();
-        } else
-            parent.setListaMarkers(frienListRetorno);
+        if (result != null) {
+            if (result.equals("Loc Registration Success")) {
+                //Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+            } else
+                parent.setListaMarkers(frienListRetorno);
+        }
     }
 }

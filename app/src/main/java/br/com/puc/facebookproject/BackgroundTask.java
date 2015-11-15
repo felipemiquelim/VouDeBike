@@ -57,31 +57,28 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
 
     @Override
     protected void onPostExecute(String result) {
-        if(result.equals("Registration Success...")) {
-            Toast.makeText(ctx,result,Toast.LENGTH_LONG).show();
-        }
-        else if (result.equals("Update Success...")) {
-            Toast.makeText(ctx,result,Toast.LENGTH_LONG).show();
-        }
-        else if (result.equals("Deactivate Success...")) {
-            Toast.makeText(ctx,result,Toast.LENGTH_LONG).show();
-        }
-        else if (result.equals("Admin") || result.equals("User")) {
-            if (result.equals("Admin"))
-                mParent.setAdmin(true);
-        }
-        else if (result.equals("Autorizado")) {
-            Toast.makeText(ctx,result,Toast.LENGTH_LONG).show();
-        }
-        else {
-            //alertDialog.setMessage(result);
-            //alertDialog.show();
-            if (result.trim().equals("0"))  {
-                Intent i = new Intent(ctx, cadastro_ciclista.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                ctx.startActivity(i);
-            } else
-                Toast.makeText(ctx,"Usuário já registrado",Toast.LENGTH_LONG).show();
+        if(result != null) {
+            if (result.equals("Registration Success...")) {
+                Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+            } else if (result.equals("Update Success...")) {
+                Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+            } else if (result.equals("Deactivate Success...")) {
+                Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+            } else if (result.equals("Admin") || result.equals("User")) {
+                if (result.equals("Admin"))
+                    mParent.setAdmin(true);
+            } else if (result.equals("Autorizado")) {
+                Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
+            } else {
+                //alertDialog.setMessage(result);
+                //alertDialog.show();
+                if (result.trim().equals("0")) {
+                    Intent i = new Intent(ctx, cadastro_ciclista.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    ctx.startActivity(i);
+                } else
+                    Toast.makeText(ctx, "Usuário já registrado", Toast.LENGTH_LONG).show();
+            }
         }
 
 

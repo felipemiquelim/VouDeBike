@@ -17,37 +17,39 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".menu" />
-        <activity android:name=".shareonfacebook" />
-        <activity android:name=".sharelocationgps" />
-        <activity android:name=".shareactivity" />
-        <activity android:name=".ciclista.cadastro_ciclista" />
-        <activity android:name=".ciclista.gerenciar_ciclista" />
-        <activity android:name=".maps.Direcion"></activity>
-        <activity android:name=".maps.cadastro_estabelecimento"></activity>
-        <activity android:name=".admin"></activity>
-        <activity android:name=".localizacao.localizacao"></activity>
+        <activity android:name=".menu" android:screenOrientation="portrait"/>
+        <activity android:name=".shareonfacebook" android:screenOrientation="portrait"/>
+        <activity android:name=".sharelocationgps" android:screenOrientation="portrait"/>
+        <activity android:name=".shareactivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ciclista.cadastro_ciclista" android:screenOrientation="portrait"/>
+        <activity android:name=".ciclista.gerenciar_ciclista" android:screenOrientation="portrait"/>
+        <activity android:name=".maps.Direcion" android:screenOrientation="portrait"></activity>
+        <activity android:name=".maps.cadastro_estabelecimento" android:screenOrientation="portrait"></activity>
+        <activity android:name=".admin" android:screenOrientation="portrait"></activity>
+        <activity android:name=".localizacao.localizacao" android:screenOrientation="portrait"></activity>
 
 
     <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+        android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -58,7 +60,8 @@
 
         <activity
             android:name=".maps.MapsActivity"
-            android:label="@string/title_activity_maps" >
+            android:label="@string/title_activity_maps"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

@@ -57,19 +57,18 @@ public class dataBase extends AsyncTask <String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if (result.equals("Registration Success")) {
-            Toast.makeText(ctx, "Cadastro Efetuado", Toast.LENGTH_LONG).show();
-        }
-        else if (result.equals("Pending")) {
-            Toast.makeText(ctx, "Estabelecimentos Carregados", Toast.LENGTH_LONG).show();
-            mParentAdm.setEstabelecimentos(listaElementos);
-        }
-        else if (result.equals("Updated Status")) {
-            Toast.makeText(ctx, "Estabelecimento Aprovado", Toast.LENGTH_LONG).show();
-        }
-        else {
-            Toast.makeText(ctx, "Markers carregados", Toast.LENGTH_LONG).show();
-            mParent.setListaMarkers(listaElementos);
+        if (result!=null) {
+            if (result.equals("Registration Success")) {
+                Toast.makeText(ctx, "Cadastro Efetuado", Toast.LENGTH_LONG).show();
+            } else if (result.equals("Pending")) {
+                Toast.makeText(ctx, "Estabelecimentos Carregados", Toast.LENGTH_LONG).show();
+                mParentAdm.setEstabelecimentos(listaElementos);
+            } else if (result.equals("Updated Status")) {
+                Toast.makeText(ctx, "Estabelecimento Aprovado", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(ctx, "Markers carregados", Toast.LENGTH_LONG).show();
+                mParent.setListaMarkers(listaElementos);
+            }
         }
     }
 
