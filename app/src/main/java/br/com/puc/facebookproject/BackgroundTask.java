@@ -25,6 +25,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 import br.com.puc.facebookproject.ciclista.cadastro_ciclista;
+import br.com.puc.facebookproject.maps.MapsActivity;
 
 /**
  * Created by Felipe on 25/10/2015.
@@ -33,10 +34,16 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
     Context ctx;
     AlertDialog alertDialog;
     menu mParent;
+    MapsActivity mParent2;
     String ip = "http://192.168.0.12/voudebike/";
 
     BackgroundTask(Context ctx, menu m) {
         this.mParent = m;
+        this.ctx = ctx;
+    }
+
+    public BackgroundTask(Context ctx, MapsActivity m) {
+        this.mParent2 = m;
         this.ctx = ctx;
     }
 
@@ -65,8 +72,12 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
             } else if (result.equals("Deactivate Success...")) {
                 Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
             } else if (result.equals("Admin") || result.equals("User")) {
-                if (result.equals("Admin"))
-                    mParent.setAdmin(true);
+                if (result.equals("Admin")) {
+                    if(mParent!=null)
+                        mParent.setAdmin(true);
+                    else if(mParent2!=null)
+                        mParent2.setAdmin(true);
+                }
             } else if (result.equals("Autorizado")) {
                 Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
             } else {

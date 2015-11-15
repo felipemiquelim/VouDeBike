@@ -13,7 +13,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.facebook.Profile;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,6 +29,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.puc.facebookproject.BackgroundTask;
 import br.com.puc.facebookproject.GPSTracker;
 import br.com.puc.facebookproject.R;
 import br.com.puc.facebookproject.dataBase;
@@ -36,10 +39,26 @@ public class MapsActivity extends FragmentActivity {
     private Spinner spinner;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private Double newEstabelecimentoLat, newEstabelecimentoLong;
+    Boolean admin = false;
+    String IDAprovar;
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
+
+        Button btnAprovar = (Button) findViewById(R.id.btnAprovar);
+        Button btnRemover = (Button) findViewById(R.id.btnRemover);
+        if (admin) {
+            btnAprovar.setVisibility(View.VISIBLE);
+            btnRemover.setVisibility(View.VISIBLE);
+        }
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        administrador();
         getMarkers();
         setUpMapIfNeeded();
     }
@@ -48,6 +67,14 @@ public class MapsActivity extends FragmentActivity {
         String method = "select";
         dataBase backgroundTask = new dataBase(this, this);
         backgroundTask.execute(method);
+    }
+
+    private void administrador() {
+        String method = "verificaAdmin";
+        Profile profile = Profile.getCurrentProfile();
+
+        BackgroundTask backgroundTask = new BackgroundTask(getApplicationContext(), this);
+        backgroundTask.execute(method, profile.getName());
     }
 
     @Override
@@ -97,10 +124,10 @@ public class MapsActivity extends FragmentActivity {
 
 
                         mMap.addMarker(new MarkerOptions().position(point)
-                        .draggable(true)
-                        .title("New Place")
-                        .snippet("Click on the button below to add")
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.cycling)));
+                                .draggable(true)
+                                .title("New Place")
+                                .snippet("Click on the button below to add")
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.cycling)));
 
                         newEstabelecimentoLat = point.latitude;
                         newEstabelecimentoLong = point.longitude;
@@ -109,6 +136,26 @@ public class MapsActivity extends FragmentActivity {
                         btnIncluir.setEnabled(true);
                     }
                 });
+
+                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker arg0) {
+                        if (arg0.isInfoWindowShown()) {
+                            arg0.hideInfoWindow();
+                        } else {
+                            arg0.showInfoWindow();
+                        }
+                        String[] aprovar = arg0.getTitle().split(";");
+
+                        IDAprovar = aprovar[0];
+
+                        //tv.setText(myMarker.getTitle());    //Change TextView text here like this
+
+                        return true;
+                    }
+                });
+
+
                 setUpMap();
             }
         }
@@ -132,6 +179,8 @@ public class MapsActivity extends FragmentActivity {
         putMarkers();
         Button btnIncluir = (Button) findViewById(R.id.btnIncluir);
         btnIncluir.setEnabled(false);
+
+
     }
 
     private void addListenerOnSpinnerItemSelection() {
@@ -144,12 +193,13 @@ public class MapsActivity extends FragmentActivity {
         if (listaMarkers != null) {
             for (int i = 0; i < listaMarkers.length; i++) {
                 String[] marcador = listaMarkers[i].split(";");
-                if(marcador[4].equals(spinner.getSelectedItem().toString().toUpperCase()) || spinner.getSelectedItem().toString().equals("Todos")) {
-
+                if(marcador[4].equals(spinner.getSelectedItem().toString().toUpperCase()) || (spinner.getSelectedItem().toString().equals("Todos"))
+                        || (spinner.getSelectedItemId() == 4)) {
                     MarkerOptions mo = new MarkerOptions();
                     mo.position(new LatLng(Float.valueOf(marcador[2]), Float.valueOf(marcador[3])));
-                    mo.title(marcador[0] + " Tel:" + marcador[5]);
+                    mo.title(marcador[6] + ";" + marcador[0] + " Tel:" + marcador[5]);
                     mo.snippet(marcador[1]);
+
 
                     switch (marcador[4]) {
                         case "COMER E BEBER":
@@ -174,7 +224,7 @@ public class MapsActivity extends FragmentActivity {
                 }
             }
 
-            listaMarkers = null;
+           // listaMarkers = null;
         }
     }
 
@@ -185,8 +235,25 @@ public class MapsActivity extends FragmentActivity {
 
     public void filtrar(View view) {
         mMap.clear();
-        getMarkers();
+
+        NaoAprovados();
+        if (spinner.getSelectedItemPosition() != 4) {
+            listaMarkers = null;
+            getMarkers();
+        }
         putMarkers();
+    }
+
+    private void NaoAprovados() {
+        if (spinner.getSelectedItemPosition() == 4) {
+            listaMarkers = null;
+            String method="selectAllPend2";
+
+            br.com.puc.facebookproject.dataBase db = new br.com.puc.facebookproject.dataBase(getApplicationContext(), this);
+            db.execute(method);
+        }
+        else
+            getMarkers();
     }
 
     public void onButtonClick(View v){
@@ -198,6 +265,33 @@ public class MapsActivity extends FragmentActivity {
             i.putExtras(b); //Put your id to your next Intent
             startActivity(i);
         }
+        if(v.getId()==R.id.btnAprovar) {
+            if (IDAprovar != null) {
+                String method = "aprovar";
+
+                br.com.puc.facebookproject.dataBase db = new br.com.puc.facebookproject.dataBase(getApplicationContext(), this);
+                db.execute(method, IDAprovar);
+                IDAprovar = null;
+                mMap.clear();
+
+                NaoAprovados();
+            } else
+                Toast.makeText(getApplicationContext(), "Clique em um marcador", Toast.LENGTH_SHORT).show();
+        }
+        if(v.getId()==R.id.btnRemover) {
+            if (IDAprovar != null) {
+                String method = "remover";
+
+                br.com.puc.facebookproject.dataBase db = new br.com.puc.facebookproject.dataBase(getApplicationContext(), this);
+                db.execute(method, IDAprovar);
+                IDAprovar = null;
+                mMap.clear();
+
+                NaoAprovados();
+            } else
+                Toast.makeText(getApplicationContext(), "Clique em um marcador", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 }

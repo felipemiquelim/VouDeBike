@@ -3,7 +3,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#cee2f4">
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
@@ -55,6 +56,28 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:enabled="false"
+        android:onClick="onButtonClick" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aprovar"
+        android:id="@+id/btnAprovar"
+        android:layout_alignTop="@+id/btnIncluir"
+        android:layout_toRightOf="@+id/btnIncluir"
+        android:layout_toEndOf="@+id/btnIncluir"
+        android:visibility="invisible"
+        android:onClick="onButtonClick" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remover"
+        android:id="@+id/btnRemover"
+        android:layout_below="@+id/map"
+        android:layout_toRightOf="@+id/btnAprovar"
+        android:layout_toEndOf="@+id/btnAprovar"
+        android:visibility="invisible"
         android:onClick="onButtonClick" />
 
 

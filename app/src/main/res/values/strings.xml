@@ -11,12 +11,12 @@
         <item>Lazer</item>
         <item>Comer e Beber</item>
         <item>Bicicletaria</item>
+        <item>Não Confirmados</item>
     </string-array>
 
     <string-array name="estabelecimentosCad">
         <item>Lazer</item>
         <item>Comer e Beber</item>
-        <item>Hospedagem</item>
         <item>Bicicletaria</item>
     </string-array>
     <string-array name="dataAmigos">

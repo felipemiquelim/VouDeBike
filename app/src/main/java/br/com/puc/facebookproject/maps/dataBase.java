@@ -63,9 +63,14 @@ public class dataBase extends AsyncTask <String, Void, String> {
             } else if (result.equals("Pending")) {
                 Toast.makeText(ctx, "Estabelecimentos Carregados", Toast.LENGTH_LONG).show();
                 mParentAdm.setEstabelecimentos(listaElementos);
+            }else if (result.equals("Pending2")) {
+                Toast.makeText(ctx, "Estabelecimentos Pendentes Carregados", Toast.LENGTH_LONG).show();
+                mParent.setListaMarkers(listaElementos);
             } else if (result.equals("Updated Status")) {
                 Toast.makeText(ctx, "Estabelecimento Aprovado", Toast.LENGTH_LONG).show();
-            } else {
+            } else if (result.equals("Removed")) {
+                Toast.makeText(ctx, "Estabelecimento Removido", Toast.LENGTH_LONG).show();
+            }else {
                 Toast.makeText(ctx, "Markers carregados", Toast.LENGTH_LONG).show();
                 mParent.setListaMarkers(listaElementos);
             }
@@ -78,6 +83,7 @@ public class dataBase extends AsyncTask <String, Void, String> {
         String spen_url = ip + "maps/selectAllPending.php";
         String ins_url = ip + "maps/insert.php";
         String upd_url = ip + "maps/update.php";
+        String del_url = ip + "maps/delete.php";
 
         String method = params[0];
         String status = "1";
@@ -114,7 +120,8 @@ public class dataBase extends AsyncTask <String, Void, String> {
                     String lon = element.getAttribute("lng");
                     String type = element.getAttribute("type");
                     String tel = element.getAttribute("telefone");
-                    listaElementos[i] = name + ";" + address + ";" + lat + ";" + lon + ";" + type + ";" + tel;
+                    String nestbl = element.getAttribute("nestbl");
+                    listaElementos[i] = name + ";" + address + ";" + lat + ";" + lon + ";" + type + ";" + tel + ";" + nestbl;
                 }
                 httpURLConnection2.disconnect();
 
@@ -215,6 +222,56 @@ public class dataBase extends AsyncTask <String, Void, String> {
                 e.printStackTrace();
             }
         }
+        else if(method.equals("selectAllPend2")) {
+            try {
+                URL url = new URL(spen_url);
+                HttpURLConnection httpURLConnection2 = (HttpURLConnection) url.openConnection();
+                httpURLConnection2.disconnect();
+                httpURLConnection2 = (HttpURLConnection) url.openConnection();
+                httpURLConnection2.setDoOutput(true);
+                httpURLConnection2.setRequestMethod("POST");
+                httpURLConnection2.setDoInput(true);
+                OutputStream OS = httpURLConnection2.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
+                String data = URLEncoder.encode("nome","UTF-8") + "=" + URLEncoder.encode("name", "UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                OS.close();
+
+                Document doc = parseXML(httpURLConnection2.getInputStream());
+                NodeList descNodes = doc.getElementsByTagName("marker");
+                listaElementos = new String[descNodes.getLength()];
+
+                for(int i=0; i<descNodes.getLength();i++)
+                {
+                    Node checkNode=descNodes.item(i);
+
+                    Element element = (Element) checkNode;
+                    String name = element.getAttribute("name");
+                    String address = element.getAttribute("address");
+                    String id = element.getAttribute("id");
+                    String lat = element.getAttribute("lat");
+                    String lon = element.getAttribute("lng");
+                    String type = element.getAttribute("type");
+                    String tel = element.getAttribute("telefone");
+                    listaElementos[i] = name + ";" + address + ";" + lat + ";" + lon + ";" + type + ";" + tel + ";" + id ;
+                    //listaElementos[i] = id + "; " + name + "; END: " + address;
+                }
+                httpURLConnection2.disconnect();
+
+                return "Pending2";
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         else if(method.equals("aprovar")) {
             String id = params[1];
             try {
@@ -238,6 +295,30 @@ public class dataBase extends AsyncTask <String, Void, String> {
                 e.printStackTrace();
             }
         }
+        else if(method.equals("remover")) {
+            String id = params[1];
+            try {
+                URL url = new URL(del_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                OutputStream OS = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
+                String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8") + "&";
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                OS.close();
+                InputStream IS = httpURLConnection.getInputStream();
+                IS.close();
+                return "Removed";
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
 
 
         return null;
