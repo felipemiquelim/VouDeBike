@@ -12,7 +12,6 @@
         <item>Comer e Beber</item>
         <item>Hospedagem</item>
         <item>Bicicletaria</item>
-        <item>Outros</item>
     </string-array>
 
     <string-array name="estabelecimentosCad">
@@ -20,7 +19,12 @@
         <item>Comer e Beber</item>
         <item>Hospedagem</item>
         <item>Bicicletaria</item>
-        <item>Outros</item>
+    </string-array>
+    <string-array name="dataAmigos">
+        <item>Última Semana</item>
+        <item>Últimas 48 Horas</item>
+        <item>Últimas 24 Horas</item>
+        <item>Última Hora</item>
     </string-array>
     <string name="spinner">Escolha o tipo de estabelecimento</string>
 

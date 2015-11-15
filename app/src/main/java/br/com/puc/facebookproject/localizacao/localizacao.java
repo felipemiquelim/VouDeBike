@@ -1,14 +1,18 @@
 package br.com.puc.facebookproject.localizacao;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -27,6 +31,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import br.com.puc.facebookproject.GPSTracker;
 import br.com.puc.facebookproject.R;
@@ -53,9 +62,40 @@ public class localizacao extends FragmentActivity {
     }
 
     private void setupScreen() {
-        cadastrarLoc();
+        confirmar();
         new GetFriendList(this).execute();
         setUpMapIfNeeded();
+    }
+
+    private void confirmar() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Gravar");
+        builder.setMessage("Deseja salvar sua localização para que seus amigos possam ver?");
+
+        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                cadastrarLoc();
+
+                Toast.makeText(localizacao.this, "Localização salva", Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            }
+
+        });
+
+        builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(localizacao.this, "Localização não salva", Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+
     }
 
     private void getMarkers() {
@@ -95,6 +135,7 @@ public class localizacao extends FragmentActivity {
 
     private void setUpMap() {
         GPSTracker gps = new GPSTracker(this);
+        putMarkers();
 
         if (gps.canGetLocation()) {
             double latitude = gps.getLatitude();
@@ -104,28 +145,78 @@ public class localizacao extends FragmentActivity {
             mMap.animateCamera(yourLocation);
 
         }
-
         mMap.setMyLocationEnabled(true);
-        putMarkers();
+
+    }
+
+    private Date ConvertToDate(String dateString){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyy-MM-dd HH:mm:ss");
+        Date convertedDate = new Date();
+        try {
+            convertedDate = dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return convertedDate;
     }
 
     private void putMarkers() {
-
+        mMap.clear();
         if (listaMarkers != null) {
             for (int i = 0; i < listaMarkers.length; i++) {
                 String[] marcador = listaMarkers[i].split(";");
 
-                MarkerOptions mo = new MarkerOptions();
-                mo.position(new LatLng(Float.valueOf(marcador[1]), Float.valueOf(marcador[2])));
-                mo.title(marcador[0]);// + " Tel:" + marcador[5]);
-                mo.snippet(marcador[3]);
+                String opc = getFiltro();
+                Date data = ConvertToDate(marcador[3]);
+                Date dataAtual = ConvertToDate(getData());
+                long diff = dataAtual.getTime() - data.getTime();
+                long horas = diff / (60 * 60 * 1000);
 
-                mMap.addMarker(mo);
 
+                if(opc.equals("3") && horas<=1) {
+                    MarkerOptions mo = new MarkerOptions();
+                    mo.position(new LatLng(Float.valueOf(marcador[1]), Float.valueOf(marcador[2])));
+                    mo.title(marcador[0]);// + " Tel:" + marcador[5]);
+                    mo.snippet(marcador[3]);
+
+                    mMap.addMarker(mo);
+                }
+                else if (opc.equals("2") && horas <=24) {
+                        MarkerOptions mo = new MarkerOptions();
+                        mo.position(new LatLng(Float.valueOf(marcador[1]), Float.valueOf(marcador[2])));
+                        mo.title(marcador[0]);// + " Tel:" + marcador[5]);
+                        mo.snippet(marcador[3]);
+
+                        mMap.addMarker(mo);
+                    }
+                else if (opc.equals("1") && horas <= 48 ){
+                        MarkerOptions mo = new MarkerOptions();
+                        mo.position(new LatLng(Float.valueOf(marcador[1]), Float.valueOf(marcador[2])));
+                        mo.title(marcador[0]);// + " Tel:" + marcador[5]);
+                        mo.snippet(marcador[3]);
+
+                        mMap.addMarker(mo);
+                    }
+                else if (opc.equals("0") && horas <= 168) {
+                        MarkerOptions mo = new MarkerOptions();
+                        mo.position(new LatLng(Float.valueOf(marcador[1]), Float.valueOf(marcador[2])));
+                        mo.title(marcador[0]);// + " Tel:" + marcador[5]);
+                        mo.snippet(marcador[3]);
+
+                        mMap.addMarker(mo);
+                    }
             }
 
-            listaMarkers = null;
+            //listaMarkers = null;
         }
+    }
+
+    private String getData() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyyy-MM-dd HH:mm:ss");
+        String formattedDate = df.format(c.getTime());
+        return formattedDate;
     }
 
     public void setListaMarkers(String[] listaMarkers) {
@@ -155,7 +246,35 @@ public class localizacao extends FragmentActivity {
         }
     }
 
+    private String getFiltro() {
 
+        Spinner spnFiltro = (Spinner) findViewById(R.id.spnData);
+
+        String opc =  String.valueOf(spnFiltro.getSelectedItemPosition());
+
+        /*
+        0 - Última Semana
+        1 - Ontem
+        2 - Hoje
+        3 - Última Hora
+         */
+        if (opc.isEmpty())
+            opc = "0";
+
+        return opc;
+    }
+
+    public void onButtonClick(View view) {
+        if(view.getId()==R.id.btnFiltrar) {
+            //getMarkers();
+            putMarkers();
+        }
+        else  if(view.getId()==R.id.btnUpdate){
+            cadastrarLoc();
+            Toast.makeText(localizacao.this, "Localização salva", Toast.LENGTH_SHORT).show();
+        }
+
+    }
 
 
     class GetFriendList extends AsyncTask<String, String, String> {
