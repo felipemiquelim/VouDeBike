@@ -42,6 +42,7 @@
         <activity android:name=".maps.cadastro_estabelecimento" android:screenOrientation="portrait"></activity>
         <activity android:name=".admin" android:screenOrientation="portrait"></activity>
         <activity android:name=".localizacao.localizacao" android:screenOrientation="portrait"></activity>
+        <activity android:name=".facebook.facebookHub" android:screenOrientation="portrait"></activity>
 
 
     <activity

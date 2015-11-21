@@ -1,45 +1,29 @@
 package br.com.puc.facebookproject;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.util.Log;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.List;
-
-import android.content.pm.Signature;
-import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphRequestBatch;
-import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
-import com.facebook.login.LoginClient;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.appdatasearch.GetRecentContextCall;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 //import br.com.puc.sqlite.MySQLiteHelper;
 //import br.com.puc.sqlite.br.com.puc.sqlite.crud.TB_CICLISTA;
@@ -70,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Lastname: ", profile.getLastName());*/
                 Intent i = new Intent(MainActivity.this, menu.class);
                 startActivity(i);
+                finish();
             } else {
                 Intent i = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(i);
@@ -119,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         if (profile != null) {
             Intent i = new Intent(MainActivity.this, menu.class);
             startActivity(i);
+            finish();
         }
 
 
