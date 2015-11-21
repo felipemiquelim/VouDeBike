@@ -1,6 +1,7 @@
 package br.com.puc.facebookproject;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -38,6 +39,7 @@ import br.com.puc.facebookproject.maps.MapsActivity;
  * Created by Felipe on 12/10/2015.
  */
 public class menu extends AppCompatActivity {
+    ProgressDialog progress;
     ListView listView;
     ArrayAdapter<String> listAdapter;
     String fragmentArray[] = {"GERENCIAR CONTA", "ADMIN"};
