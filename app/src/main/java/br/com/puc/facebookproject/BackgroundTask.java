@@ -35,7 +35,7 @@ public class BackgroundTask extends AsyncTask<String, Void, String>{
     AlertDialog alertDialog;
     menu mParent;
     MapsActivity mParent2;
-    String ip = "http://192.168.0.12/voudebike/";
+    String ip = "http://ec2-54-207-26-150.sa-east-1.compute.amazonaws.com/voudebike/";
 
     BackgroundTask(Context ctx, menu m) {
         this.mParent = m;

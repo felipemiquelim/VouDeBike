@@ -40,7 +40,7 @@ public class dataBase extends AsyncTask <String, Void, String> {
     MapsActivity mParent;
     admin mParentAdm;
     private String[] listaElementos;
-    String ip = "http://192.168.0.12/voudebike/";
+    String ip = "http://ec2-54-207-26-150.sa-east-1.compute.amazonaws.com/voudebike/";
 
     public dataBase(Context ctx, MapsActivity ma) {
         this.mParent = ma;

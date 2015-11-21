@@ -28,7 +28,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  */
 public class localizacaoDB extends AsyncTask<String, Void, String> {
     Context ctx;
-    String ip = "http://192.168.0.12//voudebike/";
+    String ip = "http://ec2-54-207-26-150.sa-east-1.compute.amazonaws.com/voudebike/";
 
 
     public void setFriendList(String[] friendList) {
