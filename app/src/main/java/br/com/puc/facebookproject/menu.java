@@ -4,12 +4,18 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -96,15 +102,85 @@ public class menu extends AppCompatActivity {
 
         logoutButton.registerCallback(mCallBackManager, mCallback);
 
+
         //Configura o menu Lateral
         setDrawers();
 
-        //Verifica se o ciclista já está cadastrado no BD
-        clienteExiste();
+        //Verifica o GPS
+        verificarGPS();
 
-        //Verifica se é Admin
-        administrador();
+        //Verifica se tem Internet
+        if (verificaNET()) {
+            //Verifica se o ciclista já está cadastrado no BD
+            clienteExiste();
+            //Verifica se é Admin
+            administrador();
+        }
+        else
+            //Toast.makeText(getApplicationContext(), "Ative a conexão Web", Toast.LENGTH_LONG).show();
+            ativarNET();
+    }
 
+    private void ativarNET() {
+
+            //Ask the user to enable GPS
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Ativar Internet");
+            builder.setMessage("É necessário conectar à Internet. Como deseja se conectar?");
+            builder.setPositiveButton("Wifi", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //Launch settings, allowing user to make a change
+                    Intent i = new Intent(Settings.ACTION_WIFI_SETTINGS);
+                    startActivity(i);
+                }
+            });
+            builder.setNegativeButton("Dados", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent();
+                    intent.setComponent(new ComponentName(
+                            "com.android.settings",
+                            "com.android.settings.Settings$DataUsageSummaryActivity"));
+                    startActivity(intent);
+                }
+            });
+            builder.create().show();
+
+    }
+
+    private boolean verificaNET() {
+            ConnectivityManager cm =
+                    (ConnectivityManager) getSystemService(getApplicationContext().CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = cm.getActiveNetworkInfo();
+            return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    private void verificarGPS() {
+
+        LocationManager manager = (LocationManager)getSystemService(getApplicationContext().LOCATION_SERVICE);
+        if(!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            //Ask the user to enable GPS
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Ativar GPS");
+            builder.setMessage("É necessário ativar o GPS para continuar. Deseja ativar o GPS?");
+            builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //Launch settings, allowing user to make a change
+                    Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(i);
+                }
+            });
+            builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //No location service, no Activity
+                    finish();
+                }
+            });
+            builder.create().show();
+        }
     }
 
     private void setDrawers() {

@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Lastname: ", profile.getLastName());*/
                 Intent i = new Intent(MainActivity.this, menu.class);
                 startActivity(i);
+                finish();
             } else {
                 Intent i = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(i);
@@ -119,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         if (profile != null) {
             Intent i = new Intent(MainActivity.this, menu.class);
             startActivity(i);
+            finish();
         }
 
 
