@@ -223,10 +223,7 @@ public class menu extends AppCompatActivity {
         if (v.getId() == R.id.btnFacebook) {
             Intent i = new Intent(menu.this, facebookHub.class);
             startActivity(i);
-            /*Intent i = new Intent(menu.this, shareonfacebook.class);
-            startActivity(i);
-            Intent i = new Intent(menu.this, sharelocationgps.class);
-            startActivity(i);
+            /*
             Intent i = new Intent(menu.this, shareactivity.class);
             startActivity(i);*/
         }

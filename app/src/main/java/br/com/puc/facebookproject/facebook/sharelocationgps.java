@@ -1,4 +1,4 @@
-package br.com.puc.facebookproject;
+package br.com.puc.facebookproject.facebook;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,25 +14,22 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.Profile;
+import com.facebook.login.widget.ProfilePictureView;
 import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.model.ShareOpenGraphAction;
-import com.facebook.share.model.ShareOpenGraphContent;
-import com.facebook.share.model.ShareOpenGraphObject;
 import com.facebook.share.widget.ShareDialog;
 
-import org.kobjects.util.Util;
-
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
+
+import br.com.puc.facebookproject.R;
 
 /**
  * Created by Felipe on 17/10/2015.
@@ -56,7 +53,7 @@ public class sharelocationgps extends Activity {
 
         _addressText = (TextView) findViewById(R.id.address_text);
         _locationText = (TextView) findViewById(R.id.location_text);
-
+        setImage();
         InitializeLocationManager();
 
     }
@@ -78,7 +75,7 @@ public class sharelocationgps extends Activity {
         shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
             @Override
             public void onSuccess(Sharer.Result result) {
-                Toast.makeText(sharelocationgps.this, "Success", Toast.LENGTH_LONG).show();
+                //Toast.makeText(sharelocationgps.this, "Success", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -88,7 +85,7 @@ public class sharelocationgps extends Activity {
 
             @Override
             public void onError(FacebookException error) {
-                Toast.makeText(sharelocationgps.this, "Fail", Toast.LENGTH_LONG).show();
+                //Toast.makeText(sharelocationgps.this, "Fail", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -141,7 +138,7 @@ public class sharelocationgps extends Activity {
                 public void onLocationChanged(Location location) {
                     _currentLocation = location;
                     if (_currentLocation == null) {
-                        _locationText.setText("Unable to determine your location.");
+                        _locationText.setText("Não foi possível carregar o endereço. Tente novamente.");
                     } else {
                         _locationText.setText(String.format("{0},{1}", _currentLocation.getLatitude(), _currentLocation.getLongitude()));
                     }
@@ -179,7 +176,7 @@ public class sharelocationgps extends Activity {
     public void AddressButton_OnClick(View view) throws IOException, InterruptedException {
         if (_currentLocation == null)
         {
-            _addressText.setText("Can't determine the current address.");
+            _addressText.setText("Não foi possível carregar o endereço. Tente novamente.");
             return;
         }
 
@@ -202,7 +199,7 @@ public class sharelocationgps extends Activity {
         }
         else
         {
-            _addressText.setText("Unable to determine the address.");
+            _addressText.setText("Não foi possível carregar o endereço. Tente novamente.");
         }
 
         
@@ -218,5 +215,16 @@ public class sharelocationgps extends Activity {
         }*/
         _locationManager = null;
         ShareOnFacebook();
+    }
+
+    private void setImage() {
+        Profile profile = Profile.getCurrentProfile();
+        ImageView user_picture;
+
+        String id = profile.getId();
+
+        ProfilePictureView profilePictureView;
+        profilePictureView = (ProfilePictureView) findViewById(R.id.friendProfilePicture);
+        profilePictureView.setProfileId(id);
     }
 }

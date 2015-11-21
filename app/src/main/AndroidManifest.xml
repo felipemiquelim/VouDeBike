@@ -33,8 +33,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".menu" android:screenOrientation="portrait"/>
-        <activity android:name=".shareonfacebook" android:screenOrientation="portrait"/>
-        <activity android:name=".sharelocationgps" android:screenOrientation="portrait"/>
+        <activity android:name=".facebook.sharelocationgps" android:screenOrientation="portrait"/>
         <activity android:name=".shareactivity" android:screenOrientation="portrait"/>
         <activity android:name=".ciclista.cadastro_ciclista" android:screenOrientation="portrait"/>
         <activity android:name=".ciclista.gerenciar_ciclista" android:screenOrientation="portrait"/>
