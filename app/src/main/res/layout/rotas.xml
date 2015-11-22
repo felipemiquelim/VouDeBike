@@ -9,31 +9,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.testemaps10.MainActivity"
-    android:background="#cee2f4">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Teste Mapa Criando Rota" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="getDistance"
-            android:text="Distancia" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="getLocation"
-            android:text="Localização" />
-    </LinearLayout>
+    android:background="#cee2f4"
+    android:weightSum="1">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -64,11 +41,6 @@
             android:text="Rota"
             android:onClick="getRouteByGMAV2"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Salvar"
-            android:onClick="salvarRota"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -77,6 +49,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
+    </LinearLayout>
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="289dp" android:id="@+id/map"
+        tools:context="br.com.puc.facebookproject.maps.MapsActivity"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_weight="0.74" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Salvar"
+            android:onClick="salvarRota"/>
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getDistance"
+            android:text="Distancia" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getLocation"
+            android:text="Localização" />
     </LinearLayout>
 
 </LinearLayout>

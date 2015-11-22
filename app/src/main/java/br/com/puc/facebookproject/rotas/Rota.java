@@ -10,12 +10,12 @@ import android.location.Geocoder;
 import android.net.http.AndroidHttpClient;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.facebook.Profile;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -66,11 +66,11 @@ public class Rota extends FragmentActivity {
 
         GoogleMapOptions options = new GoogleMapOptions();
         options.zOrderOnTop(true);
-        mapFrag = SupportMapFragment.newInstance(options);
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.llContainer, mapFrag);
-        ft.commit();
+        //mapFrag = SupportMapFragment.newInstance(options);
+        mapFrag = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//        ft.replace(R.id.llContainer, mapFrag);
+//        ft.commit();
     }
 
     @Override
@@ -353,8 +353,8 @@ public class Rota extends FragmentActivity {
         EditText etO = (EditText) findViewById(R.id.origin);
         EditText etD = (EditText) findViewById(R.id.destination);
 
-        String origin = URLEncoder.encode(etO.getText().toString(), "UTF-8");
-        String destination = URLEncoder.encode(etD.getText().toString(), "UTF-8");
+        String origin = etO.getText().toString();
+        String destination = etD.getText().toString();
         String latOr, longOr, latDest, longDest;
 
         latOr = String.valueOf(latlongOrigem.latitude);
@@ -362,6 +362,13 @@ public class Rota extends FragmentActivity {
 
         latDest = String.valueOf(latlongDestino.latitude);
         longDest = String.valueOf(latlongDestino.longitude);
+
+        String alias = "";
+        Profile profile = Profile.getCurrentProfile();
+
+        String method = "register";
+        RotaDB backgroundTask = new RotaDB(this);
+        backgroundTask.execute(method, profile.getId(), alias, origin, latOr, longOr, destination, latDest, longDest);
 
     }
 }
