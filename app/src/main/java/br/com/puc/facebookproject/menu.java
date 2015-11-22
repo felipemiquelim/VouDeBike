@@ -32,8 +32,8 @@ import com.facebook.login.widget.LoginButton;
 import br.com.puc.facebookproject.ciclista.gerenciar_ciclista;
 import br.com.puc.facebookproject.facebook.facebookHub;
 import br.com.puc.facebookproject.localizacao.localizacao;
-import br.com.puc.facebookproject.maps.Direcion;
 import br.com.puc.facebookproject.maps.MapsActivity;
+import br.com.puc.facebookproject.rotas.Rota;
 
 /**
  * Created by Felipe on 12/10/2015.
@@ -232,7 +232,7 @@ public class menu extends AppCompatActivity {
             startActivity(i);
         }
         if (v.getId() == R.id.btnRota) {
-            Intent i = new Intent(menu.this, Direcion.class);
+            Intent i = new Intent(menu.this, Rota.class);
             startActivity(i);
 
         }
