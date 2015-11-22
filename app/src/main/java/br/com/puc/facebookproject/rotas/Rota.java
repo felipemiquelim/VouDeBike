@@ -4,12 +4,15 @@ package br.com.puc.facebookproject.rotas;
  * Created by Felipe on 21/11/2015.
  */
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.http.AndroidHttpClient;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -43,6 +46,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.puc.facebookproject.GPSTracker;
 import br.com.puc.facebookproject.R;
 
 
@@ -58,7 +62,7 @@ public class Rota extends FragmentActivity {
     LatLng latlongOrigem;
     LatLng latlongDestino;
     Double latUltimo, longUltimo;
-
+    String alias;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,12 +105,24 @@ public class Rota extends FragmentActivity {
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         list = new ArrayList<LatLng>();
 
-        LatLng latLng = new LatLng(-23.5645445, -46.6856809);
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(13).build();
-        CameraUpdate update = CameraUpdateFactory.newCameraPosition(cameraPosition);
+        //Felipe
+        map.setMyLocationEnabled(true);
+        GPSTracker gps = new GPSTracker(this);
+        if (gps.canGetLocation()) {
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+            LatLng coordinate = new LatLng(latitude, longitude);
+            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 14);
+            map.animateCamera(yourLocation);
+
+        }
+
+        //LatLng latLng = new LatLng(-23.5645445, -46.6856809);
+        //CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(13).build();
+        //CameraUpdate update = CameraUpdateFactory.newCameraPosition(cameraPosition);
 
         //map.moveCamera(update);
-        map.animateCamera(update);
+        //map.animateCamera(update);
 //		map.animateCamera(update, 3000, new CancelableCallback(){
 //			@Override
 //			public void onCancel() {
@@ -345,11 +361,57 @@ public class Rota extends FragmentActivity {
 
         //Felipe
         latlongDestino = new LatLng(latUltimo, longUltimo);
+        configuraZoom();
         return listPoints;
+        //Felipe
+
+    }
+
+    private void configuraZoom() {
+        //double latitude =
+        //double longitude = gps.getLongitude();
+        LatLng coordinate = latlongOrigem;
+        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 14);
+        map.animateCamera(yourLocation);
     }
 
     //Felipe
     public void salvarRota(View view) throws UnsupportedEncodingException {
+        getAlias();
+    }
+
+    private void getAlias() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Insira o Nome da Rota");
+
+// Set up the input
+        final EditText input = new EditText(this);
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+// Set up the buttons
+        builder.setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                alias = input.getText().toString();
+                gravarRota();
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                alias = "";
+            }
+        });
+
+        builder.show();
+
+    }
+
+    private void gravarRota() {
         EditText etO = (EditText) findViewById(R.id.origin);
         EditText etD = (EditText) findViewById(R.id.destination);
 
@@ -363,12 +425,29 @@ public class Rota extends FragmentActivity {
         latDest = String.valueOf(latlongDestino.latitude);
         longDest = String.valueOf(latlongDestino.longitude);
 
-        String alias = "";
+        String alia = alias;
         Profile profile = Profile.getCurrentProfile();
 
         String method = "register";
         RotaDB backgroundTask = new RotaDB(this);
-        backgroundTask.execute(method, profile.getId(), alias, origin, latOr, longOr, destination, latDest, longDest);
+        backgroundTask.execute(method, profile.getId(), alia, origin, latOr, longOr, destination, latDest, longDest);
+    }
 
+    public void limpar(View view) {
+        EditText etO = (EditText) findViewById(R.id.origin);
+        EditText etD = (EditText) findViewById(R.id.destination);
+        etO.setText("Origem");
+        etD.setText("Destino");
+
+        map.clear();
+        GPSTracker gps = new GPSTracker(this);
+        if (gps.canGetLocation()) {
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+            LatLng coordinate = new LatLng(latitude, longitude);
+            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 14);
+            map.animateCamera(yourLocation);
+
+        }
     }
 }
