@@ -43,6 +43,7 @@
         <activity android:name=".localizacao.localizacao" android:screenOrientation="portrait"></activity>
         <activity android:name=".facebook.facebookHub" android:screenOrientation="portrait"></activity>
         <activity android:name=".rotas.Rota" android:screenOrientation="portrait"></activity>
+        <activity android:name=".rotas.MinhasRotas" android:screenOrientation="portrait"></activity>
 
 
     <activity

@@ -16,8 +16,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Insira a rota desejada"
+        android:text="Escolha a rota desejada"
         android:id="@+id/textView" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spRota"
+        android:layout_gravity="center_horizontal"
+        android:spinnerMode="dropdown" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,43 +35,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Origem" />
+            android:hint="Origem"
+            android:focusable="false"
+            android:enabled="false"
+            android:editable="false"/>
 
         <EditText
             android:id="@+id/destination"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Destino" />
+            android:hint="Destino"
+            android:focusable="false"
+            android:enabled="false"
+            android:editable="false"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Rota"
-            android:onClick="getRouteByGMAV2"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Limpar"
-                android:id="@+id/btnlimpar"
-                android:onClick="limpar"/>
             <View
                 android:layout_width="4dp"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Minhas Rotas"
-                android:id="@+id/btnMy"
-                android:onClick="minhasRotas"/>
 
         </LinearLayout>
     </LinearLayout>
@@ -86,12 +81,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Salvar"
-            android:onClick="salvarRota"/>
 
         <Button
             android:id="@+id/button1"

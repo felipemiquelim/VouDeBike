@@ -4,19 +4,18 @@ package br.com.puc.facebookproject.rotas;
  * Created by Felipe on 21/11/2015.
  */
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.http.AndroidHttpClient;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.facebook.Profile;
@@ -51,23 +50,38 @@ import br.com.puc.facebookproject.GPSTracker;
 import br.com.puc.facebookproject.R;
 
 
-public class Rota extends FragmentActivity {
+public class MinhasRotas extends FragmentActivity {
     private SupportMapFragment mapFrag;
     private GoogleMap map;
     private Marker marker;
     private Polyline polyline;
     private List<LatLng> list;
     private long distance;
-
+    private String[] rotas;
+    private String[] rotasFull;
     //Felipe
     LatLng latlongOrigem;
     LatLng latlongDestino;
     Double latUltimo, longUltimo;
     String alias;
+
+    public void setRotas(String[] ro) {
+        this.rotas = ro;
+
+        rotasFull = new String[ro.length + 1];
+        for(int i=0; i<ro.length;i++) {
+            rotasFull[i] = ro[i];
+        }
+
+        incluirRotas();
+    }
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.rotas);
+        setContentView(R.layout.minhasrotas);
 
         GoogleMapOptions options = new GoogleMapOptions();
         options.zOrderOnTop(true);
@@ -76,7 +90,11 @@ public class Rota extends FragmentActivity {
 //        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 //        ft.replace(R.id.llContainer, mapFrag);
 //        ft.commit();
+        buscarRotas();
+        configSpin();
     }
+
+
 
     @Override
     public void onResume(){
@@ -154,9 +172,9 @@ public class Rota extends FragmentActivity {
                     marker.remove();
                 }
 
-                customAddMarker(new LatLng(latLng.latitude, latLng.longitude), "2: Marcador Alterado", "O Marcador foi reposicionado");
-                list.add(latLng);
-                drawRoute();
+               // customAddMarker(new LatLng(latLng.latitude, latLng.longitude), "2: Marcador Alterado", "O Marcador foi reposicionado");
+               // list.add(latLng);
+               // drawRoute();
             }
         });
     }
@@ -194,7 +212,7 @@ public class Rota extends FragmentActivity {
             }
         }
 
-        Toast.makeText(Rota.this, "Distancia: " + distance + " metros", Toast.LENGTH_LONG).show();
+        Toast.makeText(MinhasRotas.this, "Distancia: " + distance + " metros", Toast.LENGTH_LONG).show();
     }
 
     public static double distance(LatLng startP, LatLng endP){
@@ -210,7 +228,7 @@ public class Rota extends FragmentActivity {
     }
 
     public void getLocation(View view){
-        Geocoder gc = new Geocoder(Rota.this);
+        Geocoder gc = new Geocoder(MinhasRotas.this);
 
         List<Address> AdressList;
         try {
@@ -225,7 +243,7 @@ public class Rota extends FragmentActivity {
 
             LatLng ll = new LatLng(AdressList.get(0).getLatitude(), AdressList.get(0).getLongitude());
 
-            Toast.makeText(Rota.this, "Local: " + adress + "\n" + ll, Toast.LENGTH_LONG).show();
+            Toast.makeText(MinhasRotas.this, "Local: " + adress + "\n" + ll, Toast.LENGTH_LONG).show();
             //Toast.makeText(MainActivity.this, "Local: " + ll, Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -235,7 +253,7 @@ public class Rota extends FragmentActivity {
 
 	/* ***************************************** ROTA ***************************************** */
 
-    public void getRouteByGMAV2(View view) throws UnsupportedEncodingException{
+    public void getRouteByGMAV2() throws UnsupportedEncodingException{
         EditText etO = (EditText) findViewById(R.id.origin);
         EditText etD = (EditText) findViewById(R.id.destination);
         String origin = URLEncoder.encode(etO.getText().toString(), "UTF-8");
@@ -376,85 +394,62 @@ public class Rota extends FragmentActivity {
         map.animateCamera(yourLocation);
     }
 
-    //Felipe
-    public void salvarRota(View view) throws UnsupportedEncodingException {
-        getAlias();
-    }
 
-    private void getAlias() {
+    private void incluirRotas() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Insira o Nome da Rota");
-
-// Set up the input
-        final EditText input = new EditText(this);
-// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
-
-// Set up the buttons
-        builder.setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                alias = input.getText().toString();
-                gravarRota();
+        if (rotas != null) {
+            String[] linha;
+            for (int i =0; i<rotas.length; i++){
+                linha = rotas[i].split(";");
+                rotas[i] = linha[0];
             }
-        });
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                alias = "";
+
+            if (rotas.length > 0) {
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                        this, android.R.layout.simple_spinner_item, rotas);
+
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                Spinner sRotas = (Spinner) findViewById(R.id.spRota);
+                sRotas.setAdapter(adapter);
             }
-        });
-
-        builder.show();
-
-    }
-
-    private void gravarRota() {
-        EditText etO = (EditText) findViewById(R.id.origin);
-        EditText etD = (EditText) findViewById(R.id.destination);
-
-        String origin = etO.getText().toString();
-        String destination = etD.getText().toString();
-        String latOr, longOr, latDest, longDest;
-
-        latOr = String.valueOf(latlongOrigem.latitude);
-        longOr = String.valueOf(latlongOrigem.longitude);
-
-        latDest = String.valueOf(latlongDestino.latitude);
-        longDest = String.valueOf(latlongDestino.longitude);
-
-        String alia = alias;
-        Profile profile = Profile.getCurrentProfile();
-
-        String method = "register";
-        RotaDB backgroundTask = new RotaDB(this);
-        backgroundTask.execute(method, profile.getId(), alia, origin, latOr, longOr, destination, latDest, longDest);
-    }
-
-    public void limpar(View view) {
-        EditText etO = (EditText) findViewById(R.id.origin);
-        EditText etD = (EditText) findViewById(R.id.destination);
-        etO.setText("Origem");
-        etD.setText("Destino");
-
-       // map.clear();
-        GPSTracker gps = new GPSTracker(this);
-        if (gps.canGetLocation()) {
-            double latitude = gps.getLatitude();
-            double longitude = gps.getLongitude();
-            LatLng coordinate = new LatLng(latitude, longitude);
-            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 14);
-            map.animateCamera(yourLocation);
-
         }
     }
 
-    public void minhasRotas(View view) {
-        Intent i = new Intent(Rota.this,MinhasRotas.class);
-        startActivity(i);
+    private void buscarRotas() {
+        String method="selectAll";
+        Profile profile = Profile.getCurrentProfile();
 
+        RotaDB db = new RotaDB(getApplicationContext(), this);
+        db.execute(method, profile.getId());
     }
+
+    private void configSpin() {
+        Spinner sRotas = (Spinner) findViewById(R.id.spRota);
+        sRotas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                EditText edtO = (EditText) findViewById(R.id.origin);
+                EditText edtD = (EditText) findViewById(R.id.destination);
+                String[] linha = rotasFull[position].split(";");
+
+                edtO.setText(linha[1]);
+                edtD.setText(linha[2]);
+                try {
+                    getRouteByGMAV2();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+    }
+
+
+
+
 }
