@@ -94,6 +94,13 @@
             android:layout_height="wrap_content"
             android:onClick="getLocation"
             android:text="Localização" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remover"
+            android:id="@+id/btnRemover"
+            android:onClick="remover"/>
     </LinearLayout>
 
 </LinearLayout>

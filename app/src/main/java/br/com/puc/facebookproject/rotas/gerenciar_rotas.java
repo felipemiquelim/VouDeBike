@@ -450,6 +450,14 @@ public class gerenciar_rotas extends FragmentActivity {
     }
 
 
+    public void remover(View view) {
+        Spinner sRotas = (Spinner) findViewById(R.id.spRota);
+        String valor = rotas[sRotas.getSelectedItemPosition()];
 
+        String method="remove";
+        Profile profile = Profile.getCurrentProfile();
 
+        controler_rotas db = new controler_rotas(getApplicationContext(), this);
+        db.execute(method, profile.getId(), valor);
+    }
 }

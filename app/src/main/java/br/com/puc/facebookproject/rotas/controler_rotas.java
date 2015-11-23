@@ -45,6 +45,7 @@ public class controler_rotas extends AsyncTask<String, Void, String>  {
     protected String doInBackground(String... params) {
         String reg_url = ip + "rota/register.php";
         String all_url = ip + "rota/selectAll.php";
+        String del_url = ip + "rota/delete.php";
 
         String method = params[0];
         if(method.equals("register"))
@@ -137,6 +138,33 @@ public class controler_rotas extends AsyncTask<String, Void, String>  {
                 e.printStackTrace();
             }
         }
+        else if(method.equals("remove"))
+        {
+            String id = params[1];
+            String alias = params[2];
+
+            try {
+                URL url = new URL(del_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                OutputStream OS = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(OS, "UTF-8"));
+                String data = URLEncoder.encode("ncicli", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8") + "&" +
+                        URLEncoder.encode("ralias", "UTF-8") + "="  + URLEncoder.encode(alias, "UTF-8") + "&" ;
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                OS.close();
+                InputStream IS = httpURLConnection.getInputStream();
+                IS.close();
+                return "Route Deletion Success";
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         return null;
     }
 
@@ -149,6 +177,9 @@ public class controler_rotas extends AsyncTask<String, Void, String>  {
             else if (result.equals("All")) {
                 Toast.makeText(cx, "Rotas Carregadas", Toast.LENGTH_LONG).show();
                 parent.setRotas(listaElementos);
+            }
+            else if (result.equals("Route Deletion Success")) {
+                Toast.makeText(cx, result, Toast.LENGTH_LONG).show();
             }
         }
     }
