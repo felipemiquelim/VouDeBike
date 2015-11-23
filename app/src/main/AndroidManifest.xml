@@ -32,18 +32,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".menu" android:screenOrientation="portrait"/>
-        <activity android:name=".facebook.sharelocationgps" android:screenOrientation="portrait"/>
-        <activity android:name=".shareactivity" android:screenOrientation="portrait"/>
+        <activity android:name=".TelaPrincipal" android:screenOrientation="portrait"/>
+        <activity android:name=".facebook.compartilhar_local" android:screenOrientation="portrait"/>
+        <activity android:name=".facebook.shareactivity" android:screenOrientation="portrait"/>
         <activity android:name=".ciclista.cadastro_ciclista" android:screenOrientation="portrait"/>
         <activity android:name=".ciclista.gerenciar_ciclista" android:screenOrientation="portrait"/>
-        <activity android:name=".maps.Direcion" android:screenOrientation="portrait"></activity>
         <activity android:name=".maps.cadastro_estabelecimento" android:screenOrientation="portrait"></activity>
-        <activity android:name=".admin" android:screenOrientation="portrait"></activity>
-        <activity android:name=".localizacao.localizacao" android:screenOrientation="portrait"></activity>
-        <activity android:name=".facebook.facebookHub" android:screenOrientation="portrait"></activity>
-        <activity android:name=".rotas.Rota" android:screenOrientation="portrait"></activity>
-        <activity android:name=".rotas.MinhasRotas" android:screenOrientation="portrait"></activity>
+        <activity android:name=".TelaAdmin" android:screenOrientation="portrait"></activity>
+        <activity android:name=".localizacao.localizar_amigos" android:screenOrientation="portrait"></activity>
+        <activity android:name=".facebook.controler_facebook" android:screenOrientation="portrait"></activity>
+        <activity android:name=".rotas.TelaRotas" android:screenOrientation="portrait"></activity>
+        <activity android:name=".rotas.gerenciar_rotas" android:screenOrientation="portrait"></activity>
 
 
     <activity
@@ -61,7 +60,7 @@
             android:value="AIzaSyCJCDlQaIFjjkzZyZfHLkbnUsBd9bwyh3s" />
 
         <activity
-            android:name=".maps.MapsActivity"
+            android:name=".maps.TelaEstabelecimento"
             android:label="@string/title_activity_maps"
             android:screenOrientation="portrait">
         </activity>

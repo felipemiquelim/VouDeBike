@@ -26,17 +26,17 @@ import javax.xml.parsers.DocumentBuilderFactory;
 /**
  * Created by Felipe on 21/11/2015.
  */
-public class RotaDB extends AsyncTask<String, Void, String>  {
+public class controler_rotas extends AsyncTask<String, Void, String>  {
     private String[] listaElementos;
-    MinhasRotas parent;
+    gerenciar_rotas parent;
     Context cx;
     String ip = "http://ec2-54-207-26-150.sa-east-1.compute.amazonaws.com/voudebike/";
 
-    public RotaDB(Context ctx) {
+    public controler_rotas(Context ctx) {
         this.cx = ctx;
     }
 
-    public RotaDB(Context ctx, MinhasRotas mr) {
+    public controler_rotas(Context ctx, gerenciar_rotas mr) {
         this.cx = ctx;
         this.parent = mr;
     }

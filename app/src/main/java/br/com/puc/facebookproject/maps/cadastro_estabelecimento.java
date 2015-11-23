@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import br.com.puc.facebookproject.R;
-import br.com.puc.facebookproject.dataBase;
 
 /**
  * Created by Felipe on 08/11/2015.
@@ -44,7 +42,7 @@ public class cadastro_estabelecimento extends Activity{
             String tipo = sptipo.getSelectedItem().toString().toUpperCase();
             limpar();
             String method = "insert";
-            dataBase backgroundTask = new dataBase(this);
+            controler_estabelecimento backgroundTask = new controler_estabelecimento(this);
             backgroundTask.execute(method,razao, tipo, end, telefone, lat.toString(), lon.toString());
         }
 

@@ -34,7 +34,7 @@ import br.com.puc.facebookproject.R;
 /**
  * Created by Felipe on 17/10/2015.
  */
-public class sharelocationgps extends Activity {
+public class compartilhar_local extends Activity {
     TextView _addressText, _locationText;
     LocationManager _locationManager;
     String _locationProvider;
@@ -75,7 +75,7 @@ public class sharelocationgps extends Activity {
         shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
             @Override
             public void onSuccess(Sharer.Result result) {
-                //Toast.makeText(sharelocationgps.this, "Success", Toast.LENGTH_LONG).show();
+                //Toast.makeText(compartilhar_local.this, "Success", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -85,7 +85,7 @@ public class sharelocationgps extends Activity {
 
             @Override
             public void onError(FacebookException error) {
-                //Toast.makeText(sharelocationgps.this, "Fail", Toast.LENGTH_LONG).show();
+                //Toast.makeText(compartilhar_local.this, "Fail", Toast.LENGTH_LONG).show();
             }
         });
 

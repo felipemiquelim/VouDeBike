@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.facebook.Profile;
 
-import br.com.puc.facebookproject.BackgroundTask;
 import br.com.puc.facebookproject.R;
 
 /**
@@ -46,7 +45,7 @@ public class cadastro_ciclista extends Activity {
 
 
         String method = "register";
-        BackgroundTask backgroundTask = new BackgroundTask(this);
+        controler_ciclista backgroundTask = new controler_ciclista(this);
         backgroundTask.execute(method,nome, email, celular, status, id);
         finish();
     }

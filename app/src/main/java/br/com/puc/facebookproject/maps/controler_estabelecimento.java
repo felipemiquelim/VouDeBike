@@ -1,8 +1,7 @@
-package br.com.puc.facebookproject;
+package br.com.puc.facebookproject.maps;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -11,11 +10,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -27,31 +24,29 @@ import java.net.URLEncoder;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import br.com.puc.facebookproject.ciclista.cadastro_ciclista;
-import br.com.puc.facebookproject.ciclista.gerenciar_ciclista;
-import br.com.puc.facebookproject.maps.MapsActivity;
+import br.com.puc.facebookproject.TelaAdmin;
 
 /**
  * Created by Felipe on 25/10/2015.
  */
-public class dataBase extends AsyncTask <String, Void, String> {
+public class controler_estabelecimento extends AsyncTask <String, Void, String> {
     Context ctx;
     AlertDialog alertDialog;
-    MapsActivity mParent;
-    admin mParentAdm;
+    TelaEstabelecimento mParent;
+    TelaAdmin mParentAdm;
     private String[] listaElementos;
     String ip = "http://ec2-54-207-26-150.sa-east-1.compute.amazonaws.com/voudebike/";
 
-    public dataBase(Context ctx, MapsActivity ma) {
+    public controler_estabelecimento(Context ctx, TelaEstabelecimento ma) {
         this.mParent = ma;
         this.ctx = ctx;
     }
-    public dataBase(Context ctx, admin adm) {
+    public controler_estabelecimento(Context ctx, TelaAdmin adm) {
         this.mParentAdm = adm;
         this.ctx = ctx;
     }
 
-    public dataBase(Context ctx) {
+    public controler_estabelecimento(Context ctx) {
         this.ctx = ctx;
     }
 

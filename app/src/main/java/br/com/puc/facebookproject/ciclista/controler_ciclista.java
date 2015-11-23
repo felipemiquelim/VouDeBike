@@ -1,15 +1,10 @@
-package br.com.puc.facebookproject;
+package br.com.puc.facebookproject.ciclista;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,30 +19,30 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import br.com.puc.facebookproject.ciclista.cadastro_ciclista;
-import br.com.puc.facebookproject.maps.MapsActivity;
+import br.com.puc.facebookproject.TelaPrincipal;
+import br.com.puc.facebookproject.maps.TelaEstabelecimento;
 
 /**
  * Created by Felipe on 25/10/2015.
  */
-public class BackgroundTask extends AsyncTask<String, Void, String>{
+public class controler_ciclista extends AsyncTask<String, Void, String>{
     Context ctx;
     AlertDialog alertDialog;
-    menu mParent;
-    MapsActivity mParent2;
+    TelaPrincipal mParent;
+    TelaEstabelecimento mParent2;
     String ip = "http://ec2-54-207-26-150.sa-east-1.compute.amazonaws.com/voudebike/";
 
-    BackgroundTask(Context ctx, menu m) {
+    public controler_ciclista(Context ctx, TelaPrincipal m) {
         this.mParent = m;
         this.ctx = ctx;
     }
 
-    public BackgroundTask(Context ctx, MapsActivity m) {
+    public controler_ciclista(Context ctx, TelaEstabelecimento m) {
         this.mParent2 = m;
         this.ctx = ctx;
     }
 
-    public BackgroundTask(Context ctx) {
+    public controler_ciclista(Context ctx) {
         this.ctx = ctx;
     }
 

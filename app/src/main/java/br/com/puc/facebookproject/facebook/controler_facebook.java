@@ -21,7 +21,7 @@ import br.com.puc.facebookproject.R;
 /**
  * Created by Felipe on 21/11/2015.
  */
-public class facebookHub extends Activity {
+public class controler_facebook extends Activity {
     private Profile profile;
     private CallbackManager callbackManager;
     private ShareDialog shareDialog;
@@ -52,7 +52,7 @@ public class facebookHub extends Activity {
 
         }
         else if (v.getId() == R.id.btnLocalizacao) {
-            Intent i = new Intent(facebookHub.this, sharelocationgps.class);
+            Intent i = new Intent(controler_facebook.this, compartilhar_local.class);
             startActivity(i);
         }
     }
@@ -66,7 +66,7 @@ public class facebookHub extends Activity {
         shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
             @Override
             public void onSuccess(Sharer.Result result) {
-                //Toast.makeText(facebookHub.this, "Postado", Toast.LENGTH_LONG).show();
+                //Toast.makeText(controler_facebook.this, "Postado", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -76,7 +76,7 @@ public class facebookHub extends Activity {
 
             @Override
             public void onError(FacebookException error) {
-                //Toast.makeText(facebookHub.this, "Erro", Toast.LENGTH_LONG).show();
+                //Toast.makeText(controler_facebook.this, "Erro", Toast.LENGTH_LONG).show();
             }
         });
 

@@ -127,7 +127,7 @@ public class GPSTracker extends Service implements LocationListener {
 
         alertDialog.setTitle("GPS is settings");
 
-        alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
+        alertDialog.setMessage("GPS is not enabled. Do you want to go to settings TelaPrincipal?");
 
         alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
 

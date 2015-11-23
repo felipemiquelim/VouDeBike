@@ -1,6 +1,5 @@
 package br.com.puc.facebookproject.localizacao;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -23,7 +21,6 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -39,12 +36,11 @@ import java.util.Date;
 
 import br.com.puc.facebookproject.GPSTracker;
 import br.com.puc.facebookproject.R;
-import br.com.puc.facebookproject.dataBase;
 
 /**
  * Created by Felipe on 14/11/2015.
  */
-public class localizacao extends FragmentActivity {
+public class localizar_amigos extends FragmentActivity {
     // AccessToken accessToken;
    String[] listaMarkers, friendList;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -78,7 +74,7 @@ public class localizacao extends FragmentActivity {
             public void onClick(DialogInterface dialog, int which) {
                 cadastrarLoc();
 
-                Toast.makeText(localizacao.this, "Localização salva", Toast.LENGTH_LONG).show();
+                Toast.makeText(localizar_amigos.this, "Localização salva", Toast.LENGTH_LONG).show();
                 dialog.dismiss();
             }
 
@@ -88,7 +84,7 @@ public class localizacao extends FragmentActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(localizacao.this, "Localização não salva", Toast.LENGTH_LONG).show();
+                Toast.makeText(localizar_amigos.this, "Localização não salva", Toast.LENGTH_LONG).show();
                 dialog.dismiss();
             }
         });
@@ -100,7 +96,7 @@ public class localizacao extends FragmentActivity {
 
     private void getMarkers() {
         String method = "selectFriends";
-        localizacaoDB backgroundTask = new localizacaoDB(this, this);
+        controler_localizar_amigos backgroundTask = new controler_localizar_amigos(this, this);
         backgroundTask.setFriendList(friendList);
         backgroundTask.execute(method);
 
@@ -241,7 +237,7 @@ public class localizacao extends FragmentActivity {
 
 
             String method = "register";
-            localizacaoDB loc = new localizacaoDB(this);
+            controler_localizar_amigos loc = new controler_localizar_amigos(this);
             loc.execute(method, id, String.valueOf(latitude), String.valueOf(longitude));
         }
     }
@@ -271,7 +267,7 @@ public class localizacao extends FragmentActivity {
         }
         else  if(view.getId()==R.id.btnUpdate){
             cadastrarLoc();
-            Toast.makeText(localizacao.this, "Localização salva", Toast.LENGTH_SHORT).show();
+            Toast.makeText(localizar_amigos.this, "Localização salva", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -279,10 +275,10 @@ public class localizacao extends FragmentActivity {
 
     class GetFriendList extends AsyncTask<String, String, String> {
         JSONArray jsonFriends;
-        ProgressDialog pdig = new ProgressDialog(localizacao.this);
-        localizacao parent;
+        ProgressDialog pdig = new ProgressDialog(localizar_amigos.this);
+        localizar_amigos parent;
 
-        public GetFriendList(localizacao loc) {
+        public GetFriendList(localizar_amigos loc) {
             this.parent = loc;
         }
 

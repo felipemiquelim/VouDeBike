@@ -9,10 +9,8 @@ import android.widget.TextView;
 
 import com.facebook.Profile;
 
-import br.com.puc.facebookproject.BackgroundTask;
 import br.com.puc.facebookproject.R;
-import br.com.puc.facebookproject.dataBase;
-import br.com.puc.facebookproject.menu;
+import br.com.puc.facebookproject.TelaPrincipal;
 
 /**
  * Created by Felipe on 31/10/2015.
@@ -49,7 +47,7 @@ public class gerenciar_ciclista extends Activity {
         status = "1";
 
         String method = "update";
-        BackgroundTask backgroundTask = new BackgroundTask(this);
+        controler_ciclista backgroundTask = new controler_ciclista(this);
         backgroundTask.execute(method,nome, email, celular, status);
         finish();
     }
@@ -65,14 +63,14 @@ public class gerenciar_ciclista extends Activity {
         status = "0";
 
         String method = "desativar";
-        BackgroundTask backgroundTask = new BackgroundTask(this);
+        controler_ciclista backgroundTask = new controler_ciclista(this);
         backgroundTask.execute(method,nome, email, celular, status);
         finish();
     }
 
     public void cancelar(View view){
         Intent i;
-        i = new Intent(gerenciar_ciclista.this, menu.class);
+        i = new Intent(gerenciar_ciclista.this, TelaPrincipal.class);
         startActivity(i);
         finish();
     }

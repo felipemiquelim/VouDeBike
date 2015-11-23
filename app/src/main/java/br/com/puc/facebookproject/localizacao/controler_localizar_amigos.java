@@ -2,7 +2,6 @@ package br.com.puc.facebookproject.localizacao;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -26,7 +25,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 /**
  * Created by Felipe on 09/11/2015.
  */
-public class localizacaoDB extends AsyncTask<String, Void, String> {
+public class controler_localizar_amigos extends AsyncTask<String, Void, String> {
     Context ctx;
     String ip = "http://ec2-54-207-26-150.sa-east-1.compute.amazonaws.com/voudebike/";
 
@@ -36,13 +35,13 @@ public class localizacaoDB extends AsyncTask<String, Void, String> {
     }
 
     String[] friendList, frienListRetorno;
-    localizacao parent;
+    localizar_amigos parent;
 
-    public localizacaoDB(Context ctx) {
+    public controler_localizar_amigos(Context ctx) {
         this.ctx = ctx;
     }
 
-    public localizacaoDB(Context ctx, localizacao loc) {
+    public controler_localizar_amigos(Context ctx, localizar_amigos loc) {
         this.parent = loc;
         this.ctx = ctx;
     }
@@ -50,8 +49,8 @@ public class localizacaoDB extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        String reg_url = ip + "localizacao/register.php";
-        String frn_url = ip + "localizacao/friends.php";
+        String reg_url = ip + "localizar_amigos/register.php";
+        String frn_url = ip + "localizar_amigos/friends.php";
 
         String method = params[0];
         if(method.equals("register"))

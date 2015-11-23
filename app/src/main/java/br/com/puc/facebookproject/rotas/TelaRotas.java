@@ -51,7 +51,7 @@ import br.com.puc.facebookproject.GPSTracker;
 import br.com.puc.facebookproject.R;
 
 
-public class Rota extends FragmentActivity {
+public class TelaRotas extends FragmentActivity {
     private SupportMapFragment mapFrag;
     private GoogleMap map;
     private Marker marker;
@@ -154,9 +154,9 @@ public class Rota extends FragmentActivity {
                     marker.remove();
                 }
 
-                customAddMarker(new LatLng(latLng.latitude, latLng.longitude), "2: Marcador Alterado", "O Marcador foi reposicionado");
-                list.add(latLng);
-                drawRoute();
+                //customAddMarker(new LatLng(latLng.latitude, latLng.longitude), "2: Marcador Alterado", "O Marcador foi reposicionado");
+                //list.add(latLng);
+                //drawRoute();
             }
         });
     }
@@ -194,7 +194,7 @@ public class Rota extends FragmentActivity {
             }
         }
 
-        Toast.makeText(Rota.this, "Distancia: " + distance + " metros", Toast.LENGTH_LONG).show();
+        Toast.makeText(TelaRotas.this, "Distancia: " + distance + " metros", Toast.LENGTH_LONG).show();
     }
 
     public static double distance(LatLng startP, LatLng endP){
@@ -210,7 +210,7 @@ public class Rota extends FragmentActivity {
     }
 
     public void getLocation(View view){
-        Geocoder gc = new Geocoder(Rota.this);
+        Geocoder gc = new Geocoder(TelaRotas.this);
 
         List<Address> AdressList;
         try {
@@ -225,7 +225,7 @@ public class Rota extends FragmentActivity {
 
             LatLng ll = new LatLng(AdressList.get(0).getLatitude(), AdressList.get(0).getLongitude());
 
-            Toast.makeText(Rota.this, "Local: " + adress + "\n" + ll, Toast.LENGTH_LONG).show();
+            Toast.makeText(TelaRotas.this, "Local: " + adress + "\n" + ll, Toast.LENGTH_LONG).show();
             //Toast.makeText(MainActivity.this, "Local: " + ll, Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -384,7 +384,7 @@ public class Rota extends FragmentActivity {
     private void getAlias() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Insira o Nome da Rota");
+        builder.setTitle("Insira o Nome da TelaRotas");
 
 // Set up the input
         final EditText input = new EditText(this);
@@ -430,7 +430,7 @@ public class Rota extends FragmentActivity {
         Profile profile = Profile.getCurrentProfile();
 
         String method = "register";
-        RotaDB backgroundTask = new RotaDB(this);
+        controler_rotas backgroundTask = new controler_rotas(this);
         backgroundTask.execute(method, profile.getId(), alia, origin, latOr, longOr, destination, latDest, longDest);
     }
 
@@ -453,7 +453,7 @@ public class Rota extends FragmentActivity {
     }
 
     public void minhasRotas(View view) {
-        Intent i = new Intent(Rota.this,MinhasRotas.class);
+        Intent i = new Intent(TelaRotas.this,gerenciar_rotas.class);
         startActivity(i);
 
     }

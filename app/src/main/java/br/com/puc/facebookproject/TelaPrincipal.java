@@ -29,16 +29,17 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import br.com.puc.facebookproject.ciclista.controler_ciclista;
 import br.com.puc.facebookproject.ciclista.gerenciar_ciclista;
-import br.com.puc.facebookproject.facebook.facebookHub;
-import br.com.puc.facebookproject.localizacao.localizacao;
-import br.com.puc.facebookproject.maps.MapsActivity;
-import br.com.puc.facebookproject.rotas.Rota;
+import br.com.puc.facebookproject.facebook.controler_facebook;
+import br.com.puc.facebookproject.localizacao.localizar_amigos;
+import br.com.puc.facebookproject.maps.TelaEstabelecimento;
+import br.com.puc.facebookproject.rotas.TelaRotas;
 
 /**
  * Created by Felipe on 12/10/2015.
  */
-public class menu extends AppCompatActivity {
+public class TelaPrincipal extends AppCompatActivity {
     ProgressDialog progress;
     ListView listView;
     ArrayAdapter<String> listAdapter;
@@ -63,7 +64,7 @@ public class menu extends AppCompatActivity {
             mProfileTracker.startTracking();
 
             //VOLTA AO LOGIN
-            Intent i = new Intent(menu.this, MainActivity.class);
+            Intent i = new Intent(TelaPrincipal.this, MainActivity.class);
             startActivity(i);
         }
 
@@ -91,7 +92,7 @@ public class menu extends AppCompatActivity {
 
         logoutButton.registerCallback(mCallBackManager, mCallback);
 
-        //Configura o menu Lateral
+        //Configura o TelaPrincipal Lateral
         setDrawers();
 
         //Verifica o GPS
@@ -121,13 +122,13 @@ public class menu extends AppCompatActivity {
                 switch (position) {
                     case 0:
                         //fragment = new FragmentOne();
-                        Intent i = new Intent(menu.this, gerenciar_ciclista.class);
+                        Intent i = new Intent(TelaPrincipal.this, gerenciar_ciclista.class);
                         startActivity(i);
                         break;
                     case 1:
                         //fragment = new FragmentTwo();
                         if (admin) {
-                            Intent i4 = new Intent(menu.this, admin.class);
+                            Intent i4 = new Intent(TelaPrincipal.this, TelaAdmin.class);
                             startActivity(i4);
                         } else
                             Toast.makeText(getApplicationContext(), "Permissões insuficientes", Toast.LENGTH_LONG).show();
@@ -146,7 +147,7 @@ public class menu extends AppCompatActivity {
         String method = "verificaAdmin";
         Profile profile = Profile.getCurrentProfile();
 
-        BackgroundTask backgroundTask = new BackgroundTask(getApplicationContext(), this);
+        controler_ciclista backgroundTask = new controler_ciclista(getApplicationContext(), this);
         backgroundTask.execute(method, profile.getName());
     }
 
@@ -154,7 +155,7 @@ public class menu extends AppCompatActivity {
         String method = "verificaCliente";
         Profile profile = Profile.getCurrentProfile();
 
-        BackgroundTask backgroundTask = new BackgroundTask(getApplicationContext(), this);
+        controler_ciclista backgroundTask = new controler_ciclista(getApplicationContext(), this);
         backgroundTask.execute(method, profile.getId());
     }
     private boolean verificaNET() {
@@ -221,23 +222,23 @@ public class menu extends AppCompatActivity {
 
     public void onButtonClick(View v) {
         if (v.getId() == R.id.btnFacebook) {
-            Intent i = new Intent(menu.this, facebookHub.class);
+            Intent i = new Intent(TelaPrincipal.this, controler_facebook.class);
             startActivity(i);
             /*
-            Intent i = new Intent(menu.this, shareactivity.class);
+            Intent i = new Intent(TelaPrincipal.this, shareactivity.class);
             startActivity(i);*/
         }
         if (v.getId() == R.id.btnEstabelecimento) {
-            Intent i = new Intent(menu.this, MapsActivity.class);
+            Intent i = new Intent(TelaPrincipal.this, TelaEstabelecimento.class);
             startActivity(i);
         }
         if (v.getId() == R.id.btnRota) {
-            Intent i = new Intent(menu.this, Rota.class);
+            Intent i = new Intent(TelaPrincipal.this, TelaRotas.class);
             startActivity(i);
 
         }
         if (v.getId() == R.id.btnLocalizacao) {
-            Intent i = new Intent(menu.this, localizacao.class);
+            Intent i = new Intent(TelaPrincipal.this, localizar_amigos.class);
             startActivity(i);
         }
 
@@ -256,7 +257,7 @@ public class menu extends AppCompatActivity {
 
     public void faceLogout(View view) {
         LoginManager.getInstance().logOut();
-        Intent i = new Intent(menu.this, MainActivity.class);
+        Intent i = new Intent(TelaPrincipal.this, MainActivity.class);
         startActivity(i);
     }
 

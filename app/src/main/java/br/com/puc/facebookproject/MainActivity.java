@@ -48,11 +48,12 @@ public class MainActivity extends AppCompatActivity {
             mProfileTracker.startTracking();
             accessToken = loginResult.getAccessToken();
             getProfile();
+            getUserInfo();
 
             if (profile != null) {
                /*Log.d("Name: ", profile.getFirstName());
                 Log.d("Lastname: ", profile.getLastName());*/
-                Intent i = new Intent(MainActivity.this, menu.class);
+                Intent i = new Intent(MainActivity.this, TelaPrincipal.class);
                 startActivity(i);
                 finish();
             } else {
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         //VERIFICA SE JÁ ESTA LOGADO, SE SIM VAI PARA O MENU
         getProfile();
         if (profile != null) {
-            Intent i = new Intent(MainActivity.this, menu.class);
+            Intent i = new Intent(MainActivity.this, TelaPrincipal.class);
             startActivity(i);
             finish();
         }
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate the TelaPrincipal; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }

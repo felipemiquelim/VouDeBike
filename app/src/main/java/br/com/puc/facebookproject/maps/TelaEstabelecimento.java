@@ -1,8 +1,8 @@
 package br.com.puc.facebookproject.maps;
 
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -19,12 +19,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import br.com.puc.facebookproject.BackgroundTask;
 import br.com.puc.facebookproject.GPSTracker;
 import br.com.puc.facebookproject.R;
-import br.com.puc.facebookproject.dataBase;
+import br.com.puc.facebookproject.ciclista.controler_ciclista;
 
-public class MapsActivity extends FragmentActivity {
+public class TelaEstabelecimento extends FragmentActivity {
     String[] listaMarkers;
     private Spinner spinner;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -55,7 +54,7 @@ public class MapsActivity extends FragmentActivity {
 
     private void getMarkers() {
         String method = "select";
-        dataBase backgroundTask = new dataBase(this, this);
+        controler_estabelecimento backgroundTask = new controler_estabelecimento(this, this);
         backgroundTask.execute(method);
     }
 
@@ -63,7 +62,7 @@ public class MapsActivity extends FragmentActivity {
         String method = "verificaAdmin";
         Profile profile = Profile.getCurrentProfile();
 
-        BackgroundTask backgroundTask = new BackgroundTask(getApplicationContext(), this);
+        controler_ciclista backgroundTask = new controler_ciclista(getApplicationContext(), this);
         backgroundTask.execute(method, profile.getName());
     }
 
@@ -239,7 +238,7 @@ public class MapsActivity extends FragmentActivity {
             listaMarkers = null;
             String method="selectAllPend2";
 
-            br.com.puc.facebookproject.dataBase db = new br.com.puc.facebookproject.dataBase(getApplicationContext(), this);
+            controler_estabelecimento db = new controler_estabelecimento(getApplicationContext(), this);
             db.execute(method);
         }
         else
@@ -248,7 +247,7 @@ public class MapsActivity extends FragmentActivity {
 
     public void onButtonClick(View v){
         if(v.getId()==R.id.btnIncluir){
-            Intent i = new Intent(MapsActivity.this,cadastro_estabelecimento.class);
+            Intent i = new Intent(TelaEstabelecimento.this,cadastro_estabelecimento.class);
             Bundle b = new Bundle();
             b.putDouble("lat", newEstabelecimentoLat);
             b.putDouble("long", newEstabelecimentoLong);
@@ -259,7 +258,7 @@ public class MapsActivity extends FragmentActivity {
             if (IDAprovar != null) {
                 String method = "aprovar";
 
-                br.com.puc.facebookproject.dataBase db = new br.com.puc.facebookproject.dataBase(getApplicationContext(), this);
+                controler_estabelecimento db = new controler_estabelecimento(getApplicationContext(), this);
                 db.execute(method, IDAprovar);
                 IDAprovar = null;
                 mMap.clear();
@@ -272,7 +271,7 @@ public class MapsActivity extends FragmentActivity {
             if (IDAprovar != null) {
                 String method = "remover";
 
-                br.com.puc.facebookproject.dataBase db = new br.com.puc.facebookproject.dataBase(getApplicationContext(), this);
+                controler_estabelecimento db = new controler_estabelecimento(getApplicationContext(), this);
                 db.execute(method, IDAprovar);
                 IDAprovar = null;
                 mMap.clear();

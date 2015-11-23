@@ -1,19 +1,18 @@
 package br.com.puc.facebookproject;
 
 import android.app.Activity;
-import android.app.Notification;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.facebook.Profile;
+import br.com.puc.facebookproject.ciclista.controler_ciclista;
 
 /**
  * Created by Felipe on 08/11/2015.
  */
-public class admin extends Activity {
+public class TelaAdmin extends Activity {
     private String[] estabelecimentos;
 
     @Override
@@ -26,7 +25,7 @@ public class admin extends Activity {
     private void buscarEst() {
         String method="selectAllPend";
 
-        br.com.puc.facebookproject.dataBase db = new br.com.puc.facebookproject.dataBase(getApplicationContext(), this);
+        controler_estabelecimento db = new controler_estabelecimento(getApplicationContext(), this);
         db.execute(method);
     }
 
@@ -48,7 +47,7 @@ public class admin extends Activity {
         EditText edtemail = (EditText) findViewById(R.id.edtemail);
         String email = edtemail.getText().toString();
 
-        BackgroundTask bt = new BackgroundTask(getApplicationContext());
+        controler_ciclista bt = new controler_ciclista(getApplicationContext());
         bt.execute(method,email);
         edtemail.setText("Email");
     }
@@ -59,7 +58,7 @@ public class admin extends Activity {
         int index = spinner.getSelectedItemPosition();
         String param[] = estabelecimentos[index].split(";");
 
-        br.com.puc.facebookproject.dataBase db = new br.com.puc.facebookproject.dataBase(getApplicationContext(), this);
+        controler_estabelecimento db = new controler_estabelecimento(getApplicationContext(), this);
         db.execute(method,param[0]);
     }
 

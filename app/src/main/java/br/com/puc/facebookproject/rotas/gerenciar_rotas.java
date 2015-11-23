@@ -50,7 +50,7 @@ import br.com.puc.facebookproject.GPSTracker;
 import br.com.puc.facebookproject.R;
 
 
-public class MinhasRotas extends FragmentActivity {
+public class gerenciar_rotas extends FragmentActivity {
     private SupportMapFragment mapFrag;
     private GoogleMap map;
     private Marker marker;
@@ -212,7 +212,7 @@ public class MinhasRotas extends FragmentActivity {
             }
         }
 
-        Toast.makeText(MinhasRotas.this, "Distancia: " + distance + " metros", Toast.LENGTH_LONG).show();
+        Toast.makeText(gerenciar_rotas.this, "Distancia: " + distance + " metros", Toast.LENGTH_LONG).show();
     }
 
     public static double distance(LatLng startP, LatLng endP){
@@ -228,7 +228,7 @@ public class MinhasRotas extends FragmentActivity {
     }
 
     public void getLocation(View view){
-        Geocoder gc = new Geocoder(MinhasRotas.this);
+        Geocoder gc = new Geocoder(gerenciar_rotas.this);
 
         List<Address> AdressList;
         try {
@@ -243,7 +243,7 @@ public class MinhasRotas extends FragmentActivity {
 
             LatLng ll = new LatLng(AdressList.get(0).getLatitude(), AdressList.get(0).getLongitude());
 
-            Toast.makeText(MinhasRotas.this, "Local: " + adress + "\n" + ll, Toast.LENGTH_LONG).show();
+            Toast.makeText(gerenciar_rotas.this, "Local: " + adress + "\n" + ll, Toast.LENGTH_LONG).show();
             //Toast.makeText(MainActivity.this, "Local: " + ll, Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -419,7 +419,7 @@ public class MinhasRotas extends FragmentActivity {
         String method="selectAll";
         Profile profile = Profile.getCurrentProfile();
 
-        RotaDB db = new RotaDB(getApplicationContext(), this);
+        controler_rotas db = new controler_rotas(getApplicationContext(), this);
         db.execute(method, profile.getId());
     }
 
