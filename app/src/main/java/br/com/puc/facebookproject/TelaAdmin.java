@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import br.com.puc.facebookproject.ciclista.controler_ciclista;
+import br.com.puc.facebookproject.maps.controler_estabelecimento;
 
 /**
  * Created by Felipe on 08/11/2015.
