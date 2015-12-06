@@ -211,26 +211,33 @@ public class TelaRotas extends FragmentActivity {
 
     public void getLocation(View view){
         Geocoder gc = new Geocoder(TelaRotas.this);
+        if (latlongDestino != null) {
+            Double latDest = latlongDestino.latitude;
+            Double longDest = latlongDestino.longitude;
 
-        List<Address> AdressList;
-        try {
-            AdressList = gc.getFromLocation(list.get(list.size()-1).latitude, list.get(list.size()-1).longitude, 1);
-            //AdressList = gc.getFromLocationName("Av paulista, São Paulo, São Paulo, Brasil", 1);
+            List<Address> AdressList;
+            try {
+                AdressList = gc.getFromLocation(latDest, longDest, 1);
+                // AdressList = gc.getFromLocation(list.get(list.size()-1).latitude, list.get(list.size()-1).longitude, 1);
+                //AdressList = gc.getFromLocationName("Av paulista, São Paulo, São Paulo, Brasil", 1);
 
-            String adress = AdressList.get(0).getThoroughfare()+"\n";
-            adress += "Bairro: " + AdressList.get(0).getSubLocality()+"\n";
-            adress += "Cidade: " + AdressList.get(0).getLocality()+"\n";
-            adress += "Estado: " + AdressList.get(0).getAdminArea()+"\n";
-            adress += "Pais: " + AdressList.get(0).getCountryName();
+                String adress = AdressList.get(0).getThoroughfare() + "\n";
+                adress += "Bairro: " + AdressList.get(0).getSubLocality() + "\n";
+                adress += "Cidade: " + AdressList.get(0).getLocality() + "\n";
+                adress += "Estado: " + AdressList.get(0).getAdminArea() + "\n";
+                adress += "Pais: " + AdressList.get(0).getCountryName();
 
-            LatLng ll = new LatLng(AdressList.get(0).getLatitude(), AdressList.get(0).getLongitude());
+                LatLng ll = new LatLng(AdressList.get(0).getLatitude(), AdressList.get(0).getLongitude());
 
-            Toast.makeText(TelaRotas.this, "Local: " + adress + "\n" + ll, Toast.LENGTH_LONG).show();
-            //Toast.makeText(MainActivity.this, "Local: " + ll, Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+                Toast.makeText(TelaRotas.this, "Local: " + adress + "\n" + ll, Toast.LENGTH_LONG).show();
+                //Toast.makeText(MainActivity.this, "Local: " + ll, Toast.LENGTH_LONG).show();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
+        else
+            Toast.makeText(TelaRotas.this, "Localização de destino inexistente", Toast.LENGTH_LONG).show();
     }
 
 	/* ***************************************** ROTA ***************************************** */
@@ -384,7 +391,7 @@ public class TelaRotas extends FragmentActivity {
     private void getAlias() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Insira o Nome da TelaRotas");
+        builder.setTitle("Insira o Nome da Rota");
 
 // Set up the input
         final EditText input = new EditText(this);

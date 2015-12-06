@@ -229,27 +229,34 @@ public class gerenciar_rotas extends FragmentActivity {
 
     public void getLocation(View view){
         Geocoder gc = new Geocoder(gerenciar_rotas.this);
+        if (latlongDestino != null) {
+            Double latDest = latlongDestino.latitude;
+            Double longDest = latlongDestino.longitude;
 
-        List<Address> AdressList;
-        try {
-            AdressList = gc.getFromLocation(list.get(list.size()-1).latitude, list.get(list.size()-1).longitude, 1);
-            //AdressList = gc.getFromLocationName("Av paulista, São Paulo, São Paulo, Brasil", 1);
+            List<Address> AdressList;
+            try {
+                AdressList = gc.getFromLocation(latDest, longDest, 1);
+                //AdressList = gc.getFromLocation(list.get(list.size()-1).latitude, list.get(list.size()-1).longitude, 1);
+                //AdressList = gc.getFromLocationName("Av paulista, São Paulo, São Paulo, Brasil", 1);
 
-            String adress = AdressList.get(0).getThoroughfare()+"\n";
-            adress += "Bairro: " + AdressList.get(0).getSubLocality()+"\n";
-            adress += "Cidade: " + AdressList.get(0).getLocality()+"\n";
-            adress += "Estado: " + AdressList.get(0).getAdminArea()+"\n";
-            adress += "Pais: " + AdressList.get(0).getCountryName();
+                String adress = AdressList.get(0).getThoroughfare() + "\n";
+                adress += "Bairro: " + AdressList.get(0).getSubLocality() + "\n";
+                adress += "Cidade: " + AdressList.get(0).getLocality() + "\n";
+                adress += "Estado: " + AdressList.get(0).getAdminArea() + "\n";
+                adress += "Pais: " + AdressList.get(0).getCountryName();
 
-            LatLng ll = new LatLng(AdressList.get(0).getLatitude(), AdressList.get(0).getLongitude());
+                LatLng ll = new LatLng(AdressList.get(0).getLatitude(), AdressList.get(0).getLongitude());
 
-            Toast.makeText(gerenciar_rotas.this, "Local: " + adress + "\n" + ll, Toast.LENGTH_LONG).show();
-            //Toast.makeText(MainActivity.this, "Local: " + ll, Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+                Toast.makeText(gerenciar_rotas.this, "Local: " + adress + "\n" + ll, Toast.LENGTH_LONG).show();
+                //Toast.makeText(MainActivity.this, "Local: " + ll, Toast.LENGTH_LONG).show();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
-    }
+            else
+            Toast.makeText(gerenciar_rotas.this, "Localização de destino inexistente", Toast.LENGTH_LONG).show();
+        }
 
 	/* ***************************************** ROTA ***************************************** */
 
@@ -399,6 +406,7 @@ public class gerenciar_rotas extends FragmentActivity {
 
         if (rotas != null) {
             String[] linha;
+
             for (int i =0; i<rotas.length; i++){
                 linha = rotas[i].split(";");
                 rotas[i] = linha[0];
@@ -428,15 +436,18 @@ public class gerenciar_rotas extends FragmentActivity {
         sRotas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                EditText edtO = (EditText) findViewById(R.id.origin);
-                EditText edtD = (EditText) findViewById(R.id.destination);
-                String[] linha = rotasFull[position].split(";");
-
-                edtO.setText(linha[1]);
-                edtD.setText(linha[2]);
                 try {
-                    getRouteByGMAV2();
+                    EditText edtO = (EditText) findViewById(R.id.origin);
+                    EditText edtD = (EditText) findViewById(R.id.destination);
+                    String[] linha = rotasFull[position].split(";");
+
+                    edtO.setText(linha[1]);
+                    edtD.setText(linha[2]);
+
+                        getRouteByGMAV2();
                 } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -459,5 +470,7 @@ public class gerenciar_rotas extends FragmentActivity {
 
         controler_rotas db = new controler_rotas(getApplicationContext(), this);
         db.execute(method, profile.getId(), valor);
+        //map.clear();
+        buscarRotas();
     }
 }

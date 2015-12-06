@@ -80,7 +80,7 @@ public class controler_rotas extends AsyncTask<String, Void, String>  {
                 OS.close();
                 InputStream IS = httpURLConnection.getInputStream();
                 IS.close();
-                return "Route Registration Success";
+                return "Rota Salva com Sucesso";
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -158,7 +158,7 @@ public class controler_rotas extends AsyncTask<String, Void, String>  {
                 OS.close();
                 InputStream IS = httpURLConnection.getInputStream();
                 IS.close();
-                return "Route Deletion Success";
+                return "Rota Removida com Sucesso";
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -171,14 +171,14 @@ public class controler_rotas extends AsyncTask<String, Void, String>  {
     @Override
     protected void onPostExecute(String result) {
         if (result != null) {
-            if (result.equals("Route Registration Success")) {
+            if (result.equals("Rota Salva com Sucesso")) {
                 Toast.makeText(cx, result, Toast.LENGTH_LONG).show();
             }
             else if (result.equals("All")) {
                 Toast.makeText(cx, "Rotas Carregadas", Toast.LENGTH_LONG).show();
                 parent.setRotas(listaElementos);
             }
-            else if (result.equals("Route Deletion Success")) {
+            else if (result.equals("Rota Removida com Sucesso")) {
                 Toast.makeText(cx, result, Toast.LENGTH_LONG).show();
             }
         }

@@ -60,11 +60,11 @@ public class controler_ciclista extends AsyncTask<String, Void, String>{
     @Override
     protected void onPostExecute(String result) {
         if(result != null) {
-            if (result.equals("Registration Success...")) {
+            if (result.equals("Registro Efetuado")) {
                 Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
-            } else if (result.equals("Update Success...")) {
+            } else if (result.equals("Alteração Realizada")) {
                 Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
-            } else if (result.equals("Deactivate Success...")) {
+            } else if (result.equals("Desativação Efetuada")) {
                 Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
             } else if (result.equals("Admin") || result.equals("User")) {
                 if (result.equals("Admin")) {
@@ -125,7 +125,7 @@ public class controler_ciclista extends AsyncTask<String, Void, String>{
                 OS.close();
                 InputStream IS = httpURLConnection.getInputStream();
                 IS.close();
-                return "Registration Success...";
+                return "Registro Efetuado";
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -189,7 +189,7 @@ public class controler_ciclista extends AsyncTask<String, Void, String>{
                 OS.close();
                 InputStream IS = httpURLConnection.getInputStream();
                 IS.close();
-                return "Update Success...";
+                return "Alteração Realizada";
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -218,7 +218,7 @@ public class controler_ciclista extends AsyncTask<String, Void, String>{
                 OS.close();
                 InputStream IS = httpURLConnection.getInputStream();
                 IS.close();
-                return "Deactivate Success...";
+                return "Desativação Efetuada";
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
