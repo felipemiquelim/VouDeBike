@@ -154,9 +154,14 @@ public class TelaRotas extends FragmentActivity {
                     marker.remove();
                 }
 
-                //customAddMarker(new LatLng(latLng.latitude, latLng.longitude), "2: Marcador Alterado", "O Marcador foi reposicionado");
-                //list.add(latLng);
+                customAddMarker(new LatLng(latLng.latitude, latLng.longitude), "2: Marcador Alterado", "O Marcador foi reposicionado");
+                list.add(latLng);
                 //drawRoute();
+                if (list.size() >1) {
+                    String origem = String.valueOf(list.get(0).latitude) + "," + String.valueOf(list.get(0).longitude);
+                    String destino = String.valueOf(list.get(list.size()-1).latitude) + "," + String.valueOf(list.get(list.size()-1).longitude);
+                    getRoute(origem, destino);
+                }
             }
         });
     }
@@ -427,6 +432,16 @@ public class TelaRotas extends FragmentActivity {
         String destination = etD.getText().toString();
         String latOr, longOr, latDest, longDest;
 
+        if (origin != null) {
+            if(origin.equals("") )
+                origin = String.valueOf(list.get(0).latitude) + "," + String.valueOf(list.get(0).longitude);
+        }
+
+        if (destination != null) {
+            if(destination.equals("") )
+                destination = String.valueOf(list.get(list.size()-1).latitude) + "," + String.valueOf(list.get(list.size()-1).longitude);
+        }
+
         latOr = String.valueOf(latlongOrigem.latitude);
         longOr = String.valueOf(latlongOrigem.longitude);
 
@@ -444,8 +459,9 @@ public class TelaRotas extends FragmentActivity {
     public void limpar(View view) {
         EditText etO = (EditText) findViewById(R.id.origin);
         EditText etD = (EditText) findViewById(R.id.destination);
-        etO.setText("Origem");
-        etD.setText("Destino");
+        etO.setText("");
+        etD.setText("");
+        list.clear();
 
        // map.clear();
         GPSTracker gps = new GPSTracker(this);
